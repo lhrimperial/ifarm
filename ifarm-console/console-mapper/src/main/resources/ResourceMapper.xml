@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ifarm.console.mapper.ResourceMapper">
+    <resultMap id="BaseResult" type="com.ifarm.console.shared.domain.dto.ResourceVO">
+        <result column="id" property="id"/>
+        <result column="resource_code" property="resourceCode"/>
+        <result column="resource_name" property="resourceName"/>
+        <result column="entry_url" property="entryUrl"/>
+        <result column="parent_code" property="parentCode"/>
+        <result column="resource_level" property="resourceLevel"/>
+        <result column="resource_type" property="resourceType"/>
+        <result column="display_order" property="displayOrder"/>
+        <result column="node_icon" property="nodeIcon"/>
+        <result column="notes" property="notes"/>
+        <result column="leaf_flag" property="leafFlag"/>
+        <result column="active" property="active"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+    </resultMap>
+
+    <sql id="column_sql">
+        rs.id,rs.resource_code,rs.resource_name,rs.entry_url,rs.parent_code,rs.resource_level,rs.resource_type,rs.display_order,rs.node_icon,rs.notes,rs.leaf_flag,rs.active,rs.create_time,rs.modify_time
+    </sql>
+
+    <sql id="param_sql">
+        <if test="id != null">
+            and rs.id = #{id}
+        </if>
+        <if test="resourceCode">
+            and rs.resource_code = #{resourceCode}
+        </if>
+        <if test="resourceName != null and resourceName != ''">
+            and rs.resource_name like concat('%',concat(#{resourceName},'%'))
+        </if>
+        <if test="entryUrl != null and entryUrl != ''">
+            and rs.entry_url like concat('%',concat(#{entryUrl},'%'))
+        </if>
+        <if test="parentCode != null and parentCode != ''">
+            and rs.parent_code = #{parentCode}
+        </if>
+        <if test="resourceLevel != null">
+            and rs.resource_level = #{resourceLevel}
+        </if>
+        <if test="resourceType != null">
+            and rs.resource_type = #{resourceType}
+        </if>
+        <if test="displayOrder != null">
+            and rs.display_order = #{displayOrder}
+        </if>
+        <if test="nodeIcon != null and nodeIcon != ''">
+            and rs.node_icon like concat('%',concat(#{nodeIcon},'%'))
+        </if>
+        <if test="leafFlag != null and leafFlag != ''">
+            and rs.leaf_flag = #{leafFlag},        </if>
+        <if test="active != null and active != ''">
+            and rs.active = #{active}
+        </if>
+    </sql>
+
+    <select id="totalCount" parameterType="com.ifarm.console.shared.domain.dto.ResourceVO" resultMap="BaseResultMap">
+        select count(*)
+        from t_console_resource rs
+        <where>
+            <include refid="param_sql"/>
+        </where>
+    </select>
+
+    <select id="findByParam" parameterType="com.ifarm.console.shared.domain.dto.ResourceVO" resultMap="BaseResultMap">
+        select <include refid="column_sql"/>
+        from t_console_resource rs
+        <where>
+            <include refid="param_sql"/>
+        </where>
+    </select>
+
+    <select id="findByResCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select <include refid="column_sql"/>
+        from t_console_resource rs
+        where rs.resource_code = #{resourceCode}
+    </select>
+
+    <update id="update" parameterType="com.ifarm.console.shared.domain.dto.ResourceVO">
+        update t_console_resource
+        <set>
+            <if test="resourceName != null and resourceName != ''">
+                resource_name = #{resourceName},
+            </if>
+            <if test="entryUrl != null and entryUrl != ''">
+                entry_url = #{entryUrl},
+            </if>
+            <if test="parentCode != null and parentCode != ''">
+                parent_code = #{parentCode},
+            </if>
+            <if test="resourceLevel != null">
+                resource_level = #{resourceLevel},
+            </if>
+            <if test="resourceType != null">
+                resource_type = #{resourceType},
+            </if>
+            <if test="displayOrder != null">
+                display_order = #{displayOrder},
+            </if>
+            <if test="nodeIcon != null and nodeIcon != ''">
+                node_icon = #{nodeIcon},
+            </if>
+            <if test="notes != null and notes != ''">
+                notes = #{notes},
+            </if>
+            <if test="leafFlag != null and leafFlag != ''">
+                leaf_flag = #{leafFlag},
+            </if>
+            <if test="active != null and active != ''">
+                active = #{active},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime}
+            </if>
+        </set>
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="resourceCode">
+                and resource_code = #{resourceCode}
+            </if>
+        </where>
+    </update>
+
+    <insert id="insert" parameterType="com.ifarm.console.shared.domain.dto.ResourceVO">
+        insert into t_console_resource(resource_code,resource_name,entry_url,parent_code,resource_level,resource_type,display_order,node_icon,notes,leaf_flag,active,create_time,modify_time)
+        values(#{resource_code},#{resource_name},#{entry_url},#{parent_code},#{resource_level},#{resource_type},#{display_order},#{node_icon},#{notes},#{leaf_flag},#{active},#{create_time},#{modify_time})
+    </insert>
+</mapper>

@@ -3,5 +3,8 @@ package com.ifarm.console.shared.domain.define;
 /**
  *
  **/
-public class IFarmConstants {
+public interface IFarmConstants {
+
+    String ACTIVE = "Y";
+    public static final String INACTIVE = "N";
 }

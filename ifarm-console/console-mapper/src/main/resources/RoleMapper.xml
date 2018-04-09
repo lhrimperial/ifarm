@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ifarm.console.mapper.RoleMapper">
+    <resultMap id="BaseResult" type="com.ifarm.console.shared.domain.dto.RoleInfoVO">
+        <result column="id" property="id"/>
+        <result column="role_code" property="roleCode"/>
+        <result column="role_name" property="roleName"/>
+        <result column="notes" property="notes"/>
+        <result column="active" property="active"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+    </resultMap>
+
+    <sql id="columns_sql">
+        r.id,r.role_code,r.role_name,r.notes,r.active,r.create_time,r.modify_time
+    </sql>
+
+    <sql id="param_sql">
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="roleCode != null and roleCode != ''">
+            and role_code = #{roleCode}
+        </if>
+        <if test="roleName != null and roleName != ''">
+            and role_name like concat('%',concat(#{roleName},'%'))
+        </if>
+        <if test="active != null and active != ''">
+            and active = #{active}
+        </if>
+    </sql>
+
+    <select id="totalCount" parameterType="com.ifarm.console.shared.domain.dto.RoleInfoVO" resultType="java.lang.Long">
+        select count(*)
+        from t_console_role r
+        <where>
+            <include refid="param_sql"/>
+        </where>
+    </select>
+
+    <select id="findByParam" parameterType="com.ifarm.console.shared.domain.dto.RoleInfoVO" resultMap="BaseResultMap">
+        select <include refid="columns_sql"/>
+        from t_console_role r
+        <where>
+            <include refid="param_sql"/>
+        </where>
+    </select>
+
+    <select id="findByRoleCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select <include refid="columns_sql"/>
+        from t_console_role r
+        where r.role_code = #{roleCode}
+    </select>
+
+    <update id="update" parameterType="com.ifarm.console.shared.domain.dto.RoleInfoVO">
+        update t_console_role
+        <set>
+            <if test="roleName != null and roleName != ''">
+                role_name = #{roleName},
+            </if>
+            <if test="notes != null and notes != ''">
+                notes = #{notes},
+            </if>
+            <if test="active != null and active != ''">
+                active = #{active},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+        </set>
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="roleCode != null and roleCode != ''">
+                and role_code = #{roleCode}
+            </if>
+        </where>
+    </update>
+
+    <insert id="insert" parameterType="com.ifarm.console.shared.domain.dto.RoleInfoVO">
+        insert into t_console_role(role_code,role_name,notes,active,create_time,modify_time)
+        values(#{roleCode},#{roleName},#{notes},#{active},#{createTime},#{modifyTime})
+    </insert>
+
+</mapper>

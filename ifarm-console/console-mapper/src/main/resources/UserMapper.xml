@@ -1,4 +1,129 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ifarm.console.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.ifarm.console.shared.domain.dto.UserInfoVO">
+        <result column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+        <result column="password" property="password"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="salt" property="salt"/>
+        <result column="email" property="email"/>
+        <result column="mobile_no" property="mobileNo"/>
+        <result column="emp_code" property="empCode"/>
+        <result column="dept_code" property="deptCode"/>
+        <result column="notes" property="notes"/>
+        <result column="active" property="active"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+    </resultMap>
+
+    <sql id="column_sql">
+        u.id,u.user_name,u.password,u.nick_name,u.salt,u.email,u.mobile_no,u.emp_code,u.dept_code,u.notes,u.active,u.create_time,u.modify_time
+    </sql>
+
+    <sql id="param_sql">
+        <if test="id != null">
+            and u.id = #{id}
+        </if>
+        <if test="userName != null and userName != ''">
+            and u.user_name = #{userName}
+        </if>
+        <if test="password != null and password != ''">
+            and u.password = #{password}
+        </if>
+        <if test="nickName != null and nickName != ''">
+            and u.nick_name like concat('%',concat(#{nickName},'%'))
+        </if>
+        <if test="salt != null and salt != ''">
+            and u.salt = #{salt}
+        </if>
+        <if test="email != null and email != ''">
+            and u.email = #{email}
+        </if>
+        <if test="mobileNo != null and mobileNo != ''">
+            and u.mobile_no = #{mobileNo}
+        </if>
+        <if test="empCode != null and empCode != ''">
+            and u.emp_code = #{empCode}
+        </if>
+        <if test="deptCode != null and deptCode != ''">
+            and u.dept_code = #{deptCode}
+        </if>
+        <if test="active != null and active != ''">
+            and u.active = #{active}
+        </if>
+    </sql>
+
+
+    <select id="totalCount" parameterType="com.ifarm.console.shared.domain.dto.UserInfoVO" resultType="java.lang.Long">
+        select count(*)
+        from t_console_user u
+        <where>
+            <include refid="param_sql"/>
+        </where>
+    </select>
+
+    <select id="findByParam" parameterType="com.ifarm.console.shared.domain.dto.UserInfoVO" resultMap="BaseResultMap">
+        select <include refid="columns_sql"/>
+        from t_console_user u
+        <where>
+            <include refid="param_sql"/>
+        </where>
+    </select>
+
+    <select id="findByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select <include refid="columns_sql"/>
+        from t_console_user u
+        where u.user_name = #{userName}
+    </select>
+
+    <update id="update" parameterType="com.ifarm.console.shared.domain.dto.UserInfoVO">
+        update t_console_user
+        <set>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                nick_name = #{nickName},
+            </if>
+            <if test="salt != null and salt != ''">
+                salt = #{salt},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="mobileNo != null and mobileNo != ''">
+                mobile_no = #{mobileNo},
+            </if>
+            <if test="empCode != null and empCode != ''">
+                emp_code = #{empCode},
+            </if>
+            <if test="deptCode != null and deptCode != ''">
+                dept_code = #{deptCode},
+            </if>
+            <if test="notes != null and notes != ''">
+                notes = #{notes},
+            </if>
+            <if test="active != null and active != ''">
+                active = #{active},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+        </set>
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userName != null and userName != ''">
+                and user_name = #{userName}
+            </if>
+        </where>
+    </update>
+
+    <insert id="insert" parameterType="com.ifarm.console.shared.domain.dto.UserInfoVO">
+        insert into t_console_user(user_name,password,nick_name,salt,email,mobile_no,emp_code,dept_code,notes,active,create_time,modify_time)
+        values(#{userUame},#{password},#{nickName},#{salt},#{email},#{mobileNo},#{empCode},#{deptCode},#{notes},#{active},#{createTime},#{modifyTime})
+    </insert>
 </mapper>
