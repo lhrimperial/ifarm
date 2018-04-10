@@ -1,6 +1,7 @@
 package com.ifarm.console.facade.service.impl;
 
 import com.github.framework.util.string.StringUtils;
+import com.github.pagehelper.PageHelper;
 import com.ifarm.console.facade.service.IUserInfoService;
 import com.ifarm.console.mapper.UserMapper;
 import com.ifarm.console.shared.domain.define.IFarmConstants;
@@ -25,6 +26,7 @@ public class UserInfoServiceImpl implements IUserInfoService {
         if (userInfoVO == null) {
             throw new IllegalArgumentException("参数不能为空！");
         }
+        PageHelper.startPage(userInfoVO.getPage(), userInfoVO.getLimit());
         return userMapper.findByParam(userInfoVO);
     }
 
