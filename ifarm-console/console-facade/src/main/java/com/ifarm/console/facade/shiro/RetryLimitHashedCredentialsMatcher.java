@@ -6,14 +6,16 @@ import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
  */
-public class RetryLimitHashedCredentialsMatcher extends
-        HashedCredentialsMatcher {
+public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher {
+    private static Logger logger = LoggerFactory.getLogger(RetryLimitHashedCredentialsMatcher.class);
     //AtomicInteger是一个提供原子操作的Integer类，通过线程安全的方式操作加减。
     private Cache<String, AtomicInteger> passwordRetryCache;
 
@@ -22,12 +24,11 @@ public class RetryLimitHashedCredentialsMatcher extends
     }
     //控制密码输入错误次数
     @Override
-    public boolean doCredentialsMatch(AuthenticationToken token,
-                                      AuthenticationInfo info) {
+    public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
         String username = (String) token.getPrincipal();
         // retry count + 1
         AtomicInteger retryCount = passwordRetryCache.get(username);
-        System.out.println("retryCount:"+retryCount);
+        logger.info("retryCount:"+retryCount);
         if (retryCount == null) {
             retryCount = new AtomicInteger(0);
             passwordRetryCache.put(username, retryCount);
