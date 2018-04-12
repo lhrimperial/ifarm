@@ -8,22 +8,22 @@ import com.github.framework.server.shared.domain.vo.BaseVO;
 public class RolePermissionVO extends BaseVO {
     private static final long serialVersionUID = -4206688119323330958L;
 
-    private String roleCode;
-    private Integer resActionId;
+    private Integer roleTid;
+    private Integer permissionTid;
 
-    public String getRoleCode() {
-        return roleCode;
+    public Integer getRoleTid() {
+        return roleTid;
     }
 
-    public void setRoleCode(String roleCode) {
-        this.roleCode = roleCode;
+    public void setRoleTid(Integer roleTid) {
+        this.roleTid = roleTid;
     }
 
-    public Integer getResActionId() {
-        return resActionId;
+    public Integer getPermissionTid() {
+        return permissionTid;
     }
 
-    public void setResActionId(Integer resActionId) {
-        this.resActionId = resActionId;
+    public void setPermissionTid(Integer permissionTid) {
+        this.permissionTid = permissionTid;
     }
 }

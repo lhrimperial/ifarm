@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ifarm.console.mapper.ResourceMapper">
-    <resultMap id="BaseResult" type="com.ifarm.console.shared.domain.dto.ResourceVO">
-        <result column="id" property="id"/>
+    <resultMap id="BaseResultMap" type="com.ifarm.console.shared.domain.dto.ResourceVO">
+        <result column="id" property="tid"/>
         <result column="resource_code" property="resourceCode"/>
         <result column="resource_name" property="resourceName"/>
         <result column="entry_url" property="entryUrl"/>
@@ -23,8 +23,8 @@
     </sql>
 
     <sql id="param_sql">
-        <if test="id != null">
-            and rs.id = #{id}
+        <if test="tid != null">
+            and rs.id = #{tid}
         </if>
         <if test="resourceCode">
             and rs.resource_code = #{resourceCode}
@@ -117,8 +117,8 @@
             </if>
         </set>
         <where>
-            <if test="id != null">
-                and id = #{id}
+            <if test="tid != null">
+                and id = #{tid}
             </if>
             <if test="resourceCode">
                 and resource_code = #{resourceCode}

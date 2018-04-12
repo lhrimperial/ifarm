@@ -7,22 +7,22 @@ import com.github.framework.server.shared.domain.vo.BaseVO;
  */
 public class UserRoleVO extends BaseVO{
     private static final long serialVersionUID = 3371204090150138391L;
-    private String userName;
-    private String roleCode;
+    private Integer userTid;
+    private Integer roleTid;
 
-    public String getUserName() {
-        return userName;
+    public Integer getUserTid() {
+        return userTid;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserTid(Integer userTid) {
+        this.userTid = userTid;
     }
 
-    public String getRoleCode() {
-        return roleCode;
+    public Integer getRoleTid() {
+        return roleTid;
     }
 
-    public void setRoleCode(String roleCode) {
-        this.roleCode = roleCode;
+    public void setRoleTid(Integer roleTid) {
+        this.roleTid = roleTid;
     }
 }

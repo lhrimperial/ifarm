@@ -2,6 +2,8 @@ package com.ifarm.console.shared.domain.dto;
 
 import com.github.framework.server.shared.domain.vo.BaseVO;
 
+import java.util.List;
+
 /**
  *
  **/
@@ -17,10 +19,27 @@ public class UserInfoVO extends BaseVO{
     private String deptCode;
     private String notes;
 
+    private List<RoleInfoVO> roleInfoVOS;
+
     public String getCredentialsSalt(){
-        return userName + salt + password;
+        return userName;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getNickName() {
         return nickName;
@@ -28,6 +47,14 @@ public class UserInfoVO extends BaseVO{
 
     public void setNickName(String nickName) {
         this.nickName = nickName;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public String getEmail() {
@@ -70,27 +97,11 @@ public class UserInfoVO extends BaseVO{
         this.notes = notes;
     }
 
-    public String getSalt() {
-        return salt;
+    public List<RoleInfoVO> getRoleInfoVOS() {
+        return roleInfoVOS;
     }
 
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setRoleInfoVOS(List<RoleInfoVO> roleInfoVOS) {
+        this.roleInfoVOS = roleInfoVOS;
     }
 }

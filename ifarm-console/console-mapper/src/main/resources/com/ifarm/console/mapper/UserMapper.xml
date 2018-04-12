@@ -3,7 +3,7 @@
 <mapper namespace="com.ifarm.console.mapper.UserMapper">
 
     <resultMap id="BaseResultMap" type="com.ifarm.console.shared.domain.dto.UserInfoVO">
-        <result column="id" property="id"/>
+        <result column="id" property="tid"/>
         <result column="user_name" property="userName"/>
         <result column="password" property="password"/>
         <result column="nick_name" property="nickName"/>
@@ -18,13 +18,13 @@
         <result column="modify_time" property="modifyTime"/>
     </resultMap>
 
-    <sql id="column_sql">
+    <sql id="columns_sql">
         u.id,u.user_name,u.password,u.nick_name,u.salt,u.email,u.mobile_no,u.emp_code,u.dept_code,u.notes,u.active,u.create_time,u.modify_time
     </sql>
 
     <sql id="param_sql">
-        <if test="id != null">
-            and u.id = #{id}
+        <if test="tid != null">
+            and u.id = #{tid}
         </if>
         <if test="userName != null and userName != ''">
             and u.user_name = #{userName}
@@ -113,8 +113,8 @@
             </if>
         </set>
         <where>
-            <if test="id != null">
-                and id = #{id}
+            <if test="tid != null">
+                and id = #{tid}
             </if>
             <if test="userName != null and userName != ''">
                 and user_name = #{userName}
@@ -124,6 +124,6 @@
 
     <insert id="insert" parameterType="com.ifarm.console.shared.domain.dto.UserInfoVO">
         insert into t_console_user(user_name,password,nick_name,salt,email,mobile_no,emp_code,dept_code,notes,active,create_time,modify_time)
-        values(#{userUame},#{password},#{nickName},#{salt},#{email},#{mobileNo},#{empCode},#{deptCode},#{notes},#{active},#{createTime},#{modifyTime})
+        values(#{userName},#{password},#{nickName},#{salt},#{email},#{mobileNo},#{empCode},#{deptCode},#{notes},#{active},#{createTime},#{modifyTime})
     </insert>
 </mapper>

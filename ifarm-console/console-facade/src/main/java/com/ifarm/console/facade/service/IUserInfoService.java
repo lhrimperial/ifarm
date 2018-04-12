@@ -15,6 +15,10 @@ public interface IUserInfoService {
 
     UserInfoVO findByUserName(String userName);
 
+    void changePassword(UserInfoVO userInfoVO);
+
+    void register(UserInfoVO userInfoVO);
+
     int delete(String userName);
 
     int update(UserInfoVO userInfoVO);

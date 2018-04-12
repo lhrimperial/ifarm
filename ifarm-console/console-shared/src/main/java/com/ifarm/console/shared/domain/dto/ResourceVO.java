@@ -2,6 +2,8 @@ package com.ifarm.console.shared.domain.dto;
 
 import com.github.framework.server.shared.domain.vo.BaseVO;
 
+import java.util.List;
+
 /**
  *
  */
@@ -17,6 +19,7 @@ public class ResourceVO extends BaseVO {
     private Integer displayOrder;
     private String nodeIcon;
     private String notes;
+
 
     public String getResourceCode() {
         return resourceCode;

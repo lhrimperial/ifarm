@@ -2,6 +2,8 @@ package com.ifarm.console.shared.domain.dto;
 
 import com.github.framework.server.shared.domain.vo.BaseVO;
 
+import java.util.List;
+
 /**
  *
  */
@@ -11,6 +13,16 @@ public class RoleInfoVO extends BaseVO {
     private String roleCode;
     private String roleName;
     private String notes;
+
+    private List<PermissionVO> permissionVOS;
+
+    public List<PermissionVO> getPermissionVOS() {
+        return permissionVOS;
+    }
+
+    public void setPermissionVOS(List<PermissionVO> permissionVOS) {
+        this.permissionVOS = permissionVOS;
+    }
 
     public String getRoleCode() {
         return roleCode;
