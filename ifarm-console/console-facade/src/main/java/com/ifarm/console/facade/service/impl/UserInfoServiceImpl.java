@@ -1,9 +1,8 @@
 package com.ifarm.console.facade.service.impl;
 
-import com.github.framework.server.exception.BusinessException;
 import com.github.framework.util.string.StringUtils;
 import com.github.pagehelper.PageHelper;
-import com.ifarm.console.facade.RegisterException;
+import com.ifarm.console.shared.domain.exception.RegisterException;
 import com.ifarm.console.facade.service.IUserInfoService;
 import com.ifarm.console.mapper.UserMapper;
 import com.ifarm.console.shared.domain.define.IFarmConstants;
@@ -15,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.security.spec.PSSParameterSpec;
 import java.util.Date;
 import java.util.List;
 

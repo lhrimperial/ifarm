@@ -86,5 +86,8 @@ public class LoginController extends AbstractController{
         return responseVO;
     }
 
-
+    @RequestMapping("/logout")
+    public ResponseVO logout() {
+        return returnSuccess();
+    }
 }

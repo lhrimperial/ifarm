@@ -1,4 +1,4 @@
-package com.ifarm.console.facade;
+package com.ifarm.console.shared.domain.exception;
 
 import com.github.framework.server.exception.BusinessException;
 
