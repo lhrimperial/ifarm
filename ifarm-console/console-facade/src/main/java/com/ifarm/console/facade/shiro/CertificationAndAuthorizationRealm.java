@@ -2,8 +2,6 @@ package com.ifarm.console.facade.shiro;
 
 import com.ifarm.console.facade.service.IUserInfoService;
 import com.ifarm.console.shared.domain.define.IFarmConstants;
-import com.ifarm.console.shared.domain.dto.PermissionVO;
-import com.ifarm.console.shared.domain.dto.RoleInfoVO;
 import com.ifarm.console.shared.domain.dto.UserInfoVO;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -34,13 +32,11 @@ public class CertificationAndAuthorizationRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         logger.info("权限配置-->CertificationAndAuthorizationRealm.doGetAuthorizationInfo()");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        UserInfoVO userInfo = (UserInfoVO) principals.getPrimaryPrincipal();
-        for (RoleInfoVO role : userInfo.getRoleInfoVOS()) {
-            authorizationInfo.addRole(role.getRoleCode());
-            for (PermissionVO p : role.getPermissionVOS()) {
-                authorizationInfo.addStringPermission(p.getPermission());
-            }
-        }
+        String userName = (String) principals.getPrimaryPrincipal();
+        UserInfoVO userInfoVO = userInfoService.findByUserName(userName);
+        authorizationInfo.addRoles(userInfoVO.getRoles());
+        authorizationInfo.addStringPermissions(userInfoVO.getPermissions());
+
         return authorizationInfo;
     }
 

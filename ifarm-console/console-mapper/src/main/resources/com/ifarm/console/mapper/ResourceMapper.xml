@@ -18,6 +18,46 @@
         <result column="modify_time" property="modifyTime"/>
     </resultMap>
 
+    <resultMap id="MenuResultMap" type="com.ifarm.console.shared.domain.dto.ResourceVO">
+        <result column="id" property="tid"/>
+        <result column="resource_code" property="resourceCode"/>
+        <result column="resource_name" property="resourceName"/>
+        <result column="entry_url" property="entryUrl"/>
+        <result column="parent_code" property="parentCode"/>
+        <result column="resource_level" property="resourceLevel"/>
+        <result column="resource_type" property="resourceType"/>
+        <result column="display_order" property="displayOrder"/>
+        <result column="node_icon" property="nodeIcon"/>
+        <result column="notes" property="notes"/>
+        <result column="leaf_flag" property="leafFlag"/>
+        <collection column="resource_code" property="childrenNode" ofType="com.ifarm.console.shared.domain.dto.ResourceVO">
+            <result column="ch_id" property="tid"/>
+            <result column="ch_resource_code" property="resourceCode"/>
+            <result column="ch_resource_name" property="resourceName"/>
+            <result column="ch_entry_url" property="entryUrl"/>
+            <result column="ch_parent_code" property="parentCode"/>
+            <result column="ch_resource_level" property="resourceLevel"/>
+            <result column="ch_resource_type" property="resourceType"/>
+            <result column="ch_display_order" property="displayOrder"/>
+            <result column="ch_node_icon" property="nodeIcon"/>
+            <result column="ch_notes" property="notes"/>
+            <result column="ch_leaf_flag" property="leafFlag"/>
+            <collection column="resource_code" property="childrenNode" ofType="com.ifarm.console.shared.domain.dto.ResourceVO">
+                <result column="gch_id" property="tid"/>
+                <result column="gch_resource_code" property="resourceCode"/>
+                <result column="gch_resource_name" property="resourceName"/>
+                <result column="gch_entry_url" property="entryUrl"/>
+                <result column="gch_parent_code" property="parentCode"/>
+                <result column="gch_resource_level" property="resourceLevel"/>
+                <result column="gch_resource_type" property="resourceType"/>
+                <result column="gch_display_order" property="displayOrder"/>
+                <result column="gch_node_icon" property="nodeIcon"/>
+                <result column="gch_notes" property="notes"/>
+                <result column="gch_leaf_flag" property="leafFlag"/>
+            </collection>
+        </collection>
+    </resultMap>
+
     <sql id="column_sql">
         rs.id,rs.resource_code,rs.resource_name,rs.entry_url,rs.parent_code,rs.resource_level,rs.resource_type,rs.display_order,rs.node_icon,rs.notes,rs.leaf_flag,rs.active,rs.create_time,rs.modify_time
     </sql>
@@ -56,6 +96,44 @@
             and rs.active = #{active}
         </if>
     </sql>
+
+
+    <select id="findMenuResources" parameterType="java.lang.String" resultMap="MenuResultMap">
+        select <include refid="column_sql"/>
+        ,ch.id as ch_id,
+        ch.resource_code as ch_resource_code,
+        ch.resource_name as ch_resource_name,
+        ch.entry_url as ch_entry_url,
+        ch.parent_code as ch_parent_code,
+        ch.resource_level as ch_resource_level,
+        ch.resource_type as ch_resource_type,
+        ch.display_order as ch_display_order,
+        ch.node_icon as ch_node_icon,
+        ch.notes as ch_notes,
+        ch.leaf_flag as ch_leaf_flag,
+        gch.id as gch_id,
+        gch.resource_code as gch_resource_code,
+        gch.resource_name as gch_resource_name,
+        gch.entry_url as gch_entry_url,
+        gch.parent_code as gch_parent_code,
+        gch.resource_level as gch_resource_level,
+        gch.resource_type as gch_resource_type,
+        gch.display_order as gch_display_order,
+        gch.node_icon as gch_node_icon,
+        gch.notes as gch_notes,
+        gch.leaf_flag as gch_leaf_flag
+        from t_console_user u
+        left join t_console_user_role ur on u.id = ur.user_id
+        left join t_console_role r on r.id = ur.role_id
+        left join t_console_role_permission rp on r.id = rp.role_id
+        left join t_console_permission p on p.id = rp.permission_id
+        left join t_console_resource rs on rs.id = p.resource_id
+        left join t_console_resource ch on rs.resource_code = ch.parent_code
+        left join t_console_resource gch on ch.resource_code = gch.parent_code
+        where u.user_name = #{userName}
+        and rs.active = 'Y'
+        and rs.resource_code = 'console_1'
+    </select>
 
     <select id="totalCount" parameterType="com.ifarm.console.shared.domain.dto.ResourceVO" resultMap="BaseResultMap">
         select count(*)

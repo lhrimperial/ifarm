@@ -11,6 +11,8 @@ import java.util.List;
 @Repository
 public interface ResourceMapper {
 
+    List<ResourceVO> findMenuResources(String userName);
+
     List<ResourceVO> findByParam(ResourceVO resourceVO);
 
     long totalCount(ResourceVO resourceVO);

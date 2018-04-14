@@ -22,6 +22,14 @@ public class ResourceServiceImpl implements IResourceService {
     private ResourceMapper resourceMapper;
 
     @Override
+    public List<ResourceVO> findMenuByUserName(String userName) {
+        if (StringUtils.isBlank(userName)) {
+            throw new IllegalArgumentException("参数不能为空!");
+        }
+        return resourceMapper.findMenuResources(userName);
+    }
+
+    @Override
     public List<ResourceVO> findByParam(ResourceVO resourceVO) {
         if (resourceVO == null) {
             throw new IllegalArgumentException("参数不能为空！");

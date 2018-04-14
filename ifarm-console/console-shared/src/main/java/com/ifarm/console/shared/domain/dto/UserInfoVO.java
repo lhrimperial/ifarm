@@ -19,10 +19,17 @@ public class UserInfoVO extends BaseVO{
     private String deptCode;
     private String notes;
 
-    private List<RoleInfoVO> roleInfoVOS;
+    private List<String> roles;
+    private List<String> permissions;
+    private List<ResourceVO> menuResources;
 
     public String getCredentialsSalt(){
         return userName;
+    }
+
+    public void clearCredentialsSalt() {
+        this.password = null;
+        this.salt = null;
     }
 
     public String getUserName() {
@@ -97,11 +104,27 @@ public class UserInfoVO extends BaseVO{
         this.notes = notes;
     }
 
-    public List<RoleInfoVO> getRoleInfoVOS() {
-        return roleInfoVOS;
+    public List<String> getPermissions() {
+        return permissions;
     }
 
-    public void setRoleInfoVOS(List<RoleInfoVO> roleInfoVOS) {
-        this.roleInfoVOS = roleInfoVOS;
+    public void setPermissions(List<String> permissions) {
+        this.permissions = permissions;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
+    public List<ResourceVO> getMenuResources() {
+        return menuResources;
+    }
+
+    public void setMenuResources(List<ResourceVO> menuResources) {
+        this.menuResources = menuResources;
     }
 }

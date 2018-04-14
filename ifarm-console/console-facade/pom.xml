@@ -28,6 +28,10 @@
             <groupId>com.github.framework</groupId>
             <artifactId>framework-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.framework</groupId>
+            <artifactId>framework-starter-redis</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.shiro</groupId>

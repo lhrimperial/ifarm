@@ -10,6 +10,7 @@ public enum ResponseCode {
     UN_LOGIN("200001", "未登录！"),
     LOGIN_FAIL("200002","登录失败！"),
     UNAUTHORIZED("200003", "未授权！"),
+    LOGOUT("200004","退出"),
     ;
 
 

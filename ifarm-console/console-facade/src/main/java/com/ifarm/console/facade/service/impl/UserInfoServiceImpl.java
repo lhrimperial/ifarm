@@ -54,6 +54,14 @@ public class UserInfoServiceImpl implements IUserInfoService {
     }
 
     @Override
+    public UserInfoVO findLoginUser(String userName) {
+        if (StringUtils.isBlank(userName)) {
+            throw new IllegalArgumentException("参数不能为空！");
+        }
+        return userMapper.findLoginUser(userName);
+    }
+
+    @Override
     public void changePassword(UserInfoVO userInfoVO) {
         //TODO
     }

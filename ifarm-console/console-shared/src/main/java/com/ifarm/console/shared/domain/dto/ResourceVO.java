@@ -18,8 +18,10 @@ public class ResourceVO extends BaseVO {
     private Integer resourceType;
     private Integer displayOrder;
     private String nodeIcon;
+    private String leafFlag;
     private String notes;
 
+    private List<ResourceVO> childrenNode;
 
     public String getResourceCode() {
         return resourceCode;
@@ -91,5 +93,21 @@ public class ResourceVO extends BaseVO {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public List<ResourceVO> getChildrenNode() {
+        return childrenNode;
+    }
+
+    public void setChildrenNode(List<ResourceVO> childrenNode) {
+        this.childrenNode = childrenNode;
+    }
+
+    public String getLeafFlag() {
+        return leafFlag;
+    }
+
+    public void setLeafFlag(String leafFlag) {
+        this.leafFlag = leafFlag;
     }
 }

@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.ifarm.console.facade.service.IRoleInfoService;
 import com.ifarm.console.mapper.RoleMapper;
 import com.ifarm.console.shared.domain.define.IFarmConstants;
+import com.ifarm.console.shared.domain.dto.ResourceVO;
 import com.ifarm.console.shared.domain.dto.RoleInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class RoleInfoServiceImpl implements IRoleInfoService {
 
     @Autowired
     private RoleMapper roleMapper;
+
 
     @Override
     public List<RoleInfoVO> findByParam(RoleInfoVO roleInfoVO) {

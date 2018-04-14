@@ -15,6 +15,8 @@ public interface IUserInfoService {
 
     UserInfoVO findByUserName(String userName);
 
+    UserInfoVO findLoginUser(String userName);
+
     void changePassword(UserInfoVO userInfoVO);
 
     void register(UserInfoVO userInfoVO);

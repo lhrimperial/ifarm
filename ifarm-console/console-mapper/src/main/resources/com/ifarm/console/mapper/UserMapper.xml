@@ -18,6 +18,15 @@
         <result column="modify_time" property="modifyTime"/>
     </resultMap>
 
+    <resultMap id="ResultWithRoleMap" type="com.ifarm.console.shared.domain.dto.UserInfoVO" extends="BaseResultMap">
+        <collection column="role_code" property="roles" ofType="java.lang.String">
+            <result column="role_code" />
+        </collection>
+        <collection column="permission" property="permissions" ofType="java.lang.String">
+            <result column="permission"/>
+        </collection>
+    </resultMap>
+
     <sql id="columns_sql">
         u.id,u.user_name,u.password,u.nick_name,u.salt,u.email,u.mobile_no,u.emp_code,u.dept_code,u.notes,u.active,u.create_time,u.modify_time
     </sql>
@@ -72,7 +81,19 @@
         </where>
     </select>
 
-    <select id="findByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="findByUserName" parameterType="java.lang.String" resultMap="ResultWithRoleMap">
+        select <include refid="columns_sql"/>
+        ,r.role_code
+        ,p.permission
+        from t_console_user u
+        left join t_console_user_role ur on u.id = ur.user_id
+        left join t_console_role r on r.id = ur.role_id
+        left join t_console_role_permission rp on r.id = rp.role_id
+        left join t_console_permission p on p.id = rp.permission_id
+        where u.user_name = #{userName}
+    </select>
+
+    <select id="findLoginUser" parameterType="java.lang.String" resultMap="BaseResultMap">
         select <include refid="columns_sql"/>
         from t_console_user u
         where u.user_name = #{userName}

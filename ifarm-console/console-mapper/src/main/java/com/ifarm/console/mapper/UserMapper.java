@@ -17,6 +17,8 @@ public interface UserMapper {
 
     UserInfoVO findByUserName(String userName);
 
+    UserInfoVO findLoginUser(String userName);
+
     int update(UserInfoVO userInfoVO);
 
     int insert(UserInfoVO userInfoVO);

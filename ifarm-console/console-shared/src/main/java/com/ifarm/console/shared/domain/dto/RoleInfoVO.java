@@ -14,14 +14,14 @@ public class RoleInfoVO extends BaseVO {
     private String roleName;
     private String notes;
 
-    private List<PermissionVO> permissionVOS;
+    private List<String> permission;
 
-    public List<PermissionVO> getPermissionVOS() {
-        return permissionVOS;
+    public List<String> getPermission() {
+        return permission;
     }
 
-    public void setPermissionVOS(List<PermissionVO> permissionVOS) {
-        this.permissionVOS = permissionVOS;
+    public void setPermission(List<String> permission) {
+        this.permission = permission;
     }
 
     public String getRoleCode() {

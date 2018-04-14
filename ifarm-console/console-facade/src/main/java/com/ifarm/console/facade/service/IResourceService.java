@@ -1,7 +1,6 @@
 package com.ifarm.console.facade.service;
 
 import com.ifarm.console.shared.domain.dto.ResourceVO;
-import com.ifarm.console.shared.domain.dto.RoleInfoVO;
 
 import java.util.List;
 
@@ -9,6 +8,8 @@ import java.util.List;
  *
  */
 public interface IResourceService {
+
+    List<ResourceVO> findMenuByUserName(String userName);
 
     List<ResourceVO> findByParam(ResourceVO resourceVO);
 

@@ -31,12 +31,12 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
         logger.info("retryCount:"+retryCount);
         if (retryCount == null) {
             retryCount = new AtomicInteger(0);
-            passwordRetryCache.put(username, retryCount);
         }
         if (retryCount.incrementAndGet() > 5) {
             // if retry count > 5 throw
             throw new ExcessiveAttemptsException();
         }
+        passwordRetryCache.put(username, retryCount);
         boolean matches = super.doCredentialsMatch(token, info);
         if (matches) {
             // clear retry count
