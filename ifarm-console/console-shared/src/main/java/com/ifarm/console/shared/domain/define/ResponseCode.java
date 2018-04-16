@@ -11,6 +11,8 @@ public enum ResponseCode {
     LOGIN_FAIL("200002","登录失败！"),
     UNAUTHORIZED("200003", "未授权！"),
     LOGOUT("200004","退出"),
+    NO_ROLE("200005","退出"),
+    NO_PERMISSION("200006","退出")
     ;
 
 
