@@ -9,6 +9,7 @@ import com.ifarm.console.shared.domain.dto.ResourceVO;
 import com.ifarm.console.shared.domain.dto.UserInfoVO;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +46,8 @@ public class LoginController extends AbstractController{
         Subject subject = SecurityUtils.getSubject();
         try {
             subject.login(token);
-
+            responseVO = returnSuccess();
+            responseVO.setResult("123456");
             return responseVO;
         } catch (IncorrectCredentialsException e) {
             //密码错误

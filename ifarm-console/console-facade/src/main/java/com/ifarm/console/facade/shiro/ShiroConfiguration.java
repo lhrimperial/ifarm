@@ -43,9 +43,6 @@ public class ShiroConfiguration {
         Map<String, Filter> filters = new LinkedHashMap<>();
         LogoutFilter logoutFilter = new LogoutFilter();
         logoutFilter.setRedirectUrl("/unauth");
-        filters.put("login", new ShiroLoginFilter());
-        filters.put("role", new ShiroRolesFilter());
-        filters.put("permission", new ShiroPermsFilter());
         filters.put("logout",logoutFilter);
         shiroFilterFactoryBean.setFilters(filters);
 

@@ -50,7 +50,7 @@ public class CertificationAndAuthorizationRealm extends AuthorizingRealm {
         //获取用户的输入的账号.
         String userName = (String) token.getPrincipal();
         //实际项目中，这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
-        UserInfoVO userInfo = userInfoService.findByUserName(userName);
+        UserInfoVO userInfo = userInfoService.findLoginUser(userName);
         if (userInfo == null) {
            throw new AuthenticationException();
         }

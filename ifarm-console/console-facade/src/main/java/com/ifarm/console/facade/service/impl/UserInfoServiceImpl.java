@@ -12,6 +12,7 @@ import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -46,6 +47,7 @@ public class UserInfoServiceImpl implements IUserInfoService {
     }
 
     @Override
+    @Cacheable
     public UserInfoVO findByUserName(String userName) {
         if (StringUtils.isBlank(userName)) {
             throw new IllegalArgumentException("参数不能为空！");
