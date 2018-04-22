@@ -1,8 +1,8 @@
 package com.ifarm.console.facade.context;
 
 import com.github.framework.server.cache.exception.security.UserNotLoginException;
-import com.github.framework.server.context.UserContext;
-import com.ifarm.console.shared.domain.dto.UserInfoVO;
+import com.github.framework.server.context.SessionContext;
+import com.github.framework.server.shared.define.Definitions;
 
 /**
  *
@@ -11,10 +11,10 @@ public class ConsoleContext {
 
     private ConsoleContext(){}
 
-    static final ThreadLocal<UserInfoVO> userStore = new ThreadLocal<>();
+    static final ThreadLocal<String> userStore = new ThreadLocal<>();
 
-    public static void setCurrentUser(UserInfoVO user) {
-        userStore.set(user);
+    public static void setCurrentUserName(String userName) {
+        SessionContext.setCurrentUser(userName);
     }
 
     /**
@@ -22,11 +22,11 @@ public class ConsoleContext {
      *
      * @return UserEntity 当前用户
      */
-    public static UserInfoVO getCurrentUser() {
-        UserInfoVO user = (UserInfoVO) (UserContext.getCurrentUser());
-        if (user == null) {
+    public static String getCurrentUserName() {
+        String userName = (String) SessionContext.getSession().getObject(Definitions.KEY_USER);
+        if (userName == null) {
             throw new UserNotLoginException();
         }
-        return user;
+        return userName;
     }
 }
