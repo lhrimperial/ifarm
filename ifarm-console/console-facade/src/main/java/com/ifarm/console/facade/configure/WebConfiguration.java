@@ -11,6 +11,15 @@ import org.springframework.context.annotation.Configuration;
 public class WebConfiguration {
 
     @Bean
+    public FilterRegistrationBean frameworkFilter() {
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        filterRegistrationBean.setName("defaultFrameworkFilter");
+        filterRegistrationBean.setFilter(new DefaultFrameworkFilter());
+        filterRegistrationBean.addUrlPatterns("/*");
+        return filterRegistrationBean;
+    }
+
+    @Bean
     public FilterRegistrationBean crosFilter() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         filterRegistrationBean.setName("crosFilter");

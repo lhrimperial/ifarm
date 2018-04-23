@@ -1,7 +1,6 @@
 package com.ifarm.console.facade.controller;
 
 import com.github.framework.server.shared.domain.vo.ResponseVO;
-import com.github.framework.server.web.AbstractController;
 import com.ifarm.console.facade.service.IUserInfoService;
 import com.ifarm.console.shared.domain.dto.UserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,13 +1,12 @@
 package com.ifarm.console.facade.controller;
 
-import com.github.framework.server.context.SessionContext;
 import com.github.framework.server.shared.domain.vo.ResponseVO;
-import com.github.framework.server.web.AbstractController;
 import com.ifarm.console.facade.context.ConsoleContext;
 import com.ifarm.console.facade.service.IResourceService;
 import com.ifarm.console.facade.service.IUserInfoService;
 import com.ifarm.console.shared.domain.dto.ResourceVO;
 import com.ifarm.console.shared.domain.dto.UserInfoVO;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 import static com.ifarm.console.shared.domain.define.ResponseCode.*;
 
@@ -41,15 +41,20 @@ public class LoginController extends AbstractController{
      * @return
      */
     @RequestMapping("/login")
-    public ResponseVO<UserInfoVO> login(@RequestBody UserInfoVO userInfoVO, HttpSession session) {
+    public ResponseVO<Map<String,Object>> login(@RequestBody UserInfoVO userInfoVO, HttpSession session) {
         ResponseVO responseVO = null;
         UsernamePasswordToken token = new UsernamePasswordToken(userInfoVO.getUserName(), userInfoVO.getPassword());
         Subject subject = SecurityUtils.getSubject();
         try {
             subject.login(token);
+            //User
+            UserInfoVO userdetail = userInfoService.findByUserName(userInfoVO.getUserName());
+            ConsoleContext.setCurrentUser(userdetail);
+
+            Map<String, Object> resultMap = new HashedMap();
+            resultMap.put("Authorization", session.getId());
             responseVO = returnSuccess();
-            responseVO.setResult(session.getId());
-            SessionContext.setCurrentUser(userInfoVO.getUserName());
+            responseVO.setResult(resultMap);
             return responseVO;
         } catch (IncorrectCredentialsException e) {
             //密码错误

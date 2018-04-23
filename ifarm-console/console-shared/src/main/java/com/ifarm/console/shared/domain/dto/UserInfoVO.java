@@ -32,6 +32,15 @@ public class UserInfoVO extends BaseVO{
         this.salt = null;
     }
 
+    public UserInfoVO() {
+    }
+
+    public UserInfoVO(String userName, String empCode, String deptCode) {
+        this.userName = userName;
+        this.empCode = empCode;
+        this.deptCode = deptCode;
+    }
+
     public String getUserName() {
         return userName;
     }
