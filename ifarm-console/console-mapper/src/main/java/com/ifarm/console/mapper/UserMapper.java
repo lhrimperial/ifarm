@@ -1,6 +1,6 @@
 package com.ifarm.console.mapper;
 
-import com.ifarm.console.shared.domain.dto.UserInfoVO;
+import com.ifarm.console.shared.domain.po.UserInfoPO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,15 +11,15 @@ import java.util.List;
 @Repository
 public interface UserMapper {
 
-    List<UserInfoVO> findByParam(UserInfoVO userInfoVO);
+    List<UserInfoPO> findByParam(UserInfoPO userInfoPO);
 
-    long totalCount(UserInfoVO userInfoVO);
+    long totalCount(UserInfoPO userInfoPO);
 
-    UserInfoVO findByUserName(String userName);
+    UserInfoPO findByUserName(String userName);
 
-    UserInfoVO findLoginUser(String userName);
+    UserInfoPO findLoginUser(String userName);
 
-    int update(UserInfoVO userInfoVO);
+    int update(UserInfoPO userInfoPO);
 
-    int insert(UserInfoVO userInfoVO);
+    int insert(UserInfoPO userInfoPO);
 }

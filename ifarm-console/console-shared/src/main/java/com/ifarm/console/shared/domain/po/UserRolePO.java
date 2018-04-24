@@ -1,11 +1,11 @@
-package com.ifarm.console.shared.domain.dto;
+package com.ifarm.console.shared.domain.po;
 
-import com.github.framework.server.shared.domain.vo.BaseVO;
+
 
 /**
  *
  */
-public class UserRoleVO extends BaseVO{
+public class UserRolePO extends BasePO {
     private static final long serialVersionUID = 3371204090150138391L;
     private Integer userTid;
     private Integer roleTid;

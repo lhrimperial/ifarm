@@ -1,6 +1,5 @@
-package com.ifarm.console.shared.domain.exception;
+package com.ifarm.console.shared.exception;
 
-import com.github.framework.server.exception.BusinessException;
 
 /**
  *

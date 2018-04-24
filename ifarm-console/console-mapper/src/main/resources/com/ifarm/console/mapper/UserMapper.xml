@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ifarm.console.mapper.UserMapper">
 
-    <resultMap id="BaseResultMap" type="com.ifarm.console.shared.domain.dto.UserInfoVO">
+    <resultMap id="BaseResultMap" type="com.ifarm.console.shared.domain.po.UserInfoPO">
         <result column="id" property="tid"/>
         <result column="user_name" property="userName"/>
         <result column="password" property="password"/>
@@ -18,7 +18,7 @@
         <result column="modify_time" property="modifyTime"/>
     </resultMap>
 
-    <resultMap id="ResultWithRoleMap" type="com.ifarm.console.shared.domain.dto.UserInfoVO" extends="BaseResultMap">
+    <resultMap id="ResultWithRoleMap" type="com.ifarm.console.shared.domain.po.UserInfoPO" extends="BaseResultMap">
         <collection column="role_code" property="roles" ofType="java.lang.String">
             <result column="role_code" />
         </collection>
@@ -65,7 +65,7 @@
     </sql>
 
 
-    <select id="totalCount" parameterType="com.ifarm.console.shared.domain.dto.UserInfoVO" resultType="java.lang.Long">
+    <select id="totalCount" parameterType="com.ifarm.console.shared.domain.po.UserInfoPO" resultType="java.lang.Long">
         select count(*)
         from t_console_user u
         <where>
@@ -73,7 +73,7 @@
         </where>
     </select>
 
-    <select id="findByParam" parameterType="com.ifarm.console.shared.domain.dto.UserInfoVO" resultMap="BaseResultMap">
+    <select id="findByParam" parameterType="com.ifarm.console.shared.domain.po.UserInfoPO" resultMap="BaseResultMap">
         select <include refid="columns_sql"/>
         from t_console_user u
         <where>
@@ -99,7 +99,7 @@
         where u.user_name = #{userName}
     </select>
 
-    <update id="update" parameterType="com.ifarm.console.shared.domain.dto.UserInfoVO">
+    <update id="update" parameterType="com.ifarm.console.shared.domain.po.UserInfoPO">
         update t_console_user
         <set>
             <if test="password != null and password != ''">
@@ -143,7 +143,7 @@
         </where>
     </update>
 
-    <insert id="insert" parameterType="com.ifarm.console.shared.domain.dto.UserInfoVO">
+    <insert id="insert" parameterType="com.ifarm.console.shared.domain.po.UserInfoPO">
         insert into t_console_user(user_name,password,nick_name,salt,email,mobile_no,emp_code,dept_code,notes,active,create_time,modify_time)
         values(#{userName},#{password},#{nickName},#{salt},#{email},#{mobileNo},#{empCode},#{deptCode},#{notes},#{active},#{createTime},#{modifyTime})
     </insert>

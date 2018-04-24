@@ -1,13 +1,16 @@
-package com.ifarm.console.shared.domain.dto;
+package com.ifarm.console.shared.domain.po;
 
-import com.github.framework.server.shared.domain.vo.BaseVO;
+
+
+import com.github.framework.util.serializer.BeanCopyUtils;
+import com.ifarm.console.shared.domain.dto.ResourceDTO;
 
 import java.util.List;
 
 /**
  *
  */
-public class ResourceVO extends BaseVO {
+public class ResourcePO extends BasePO {
 
     private static final long serialVersionUID = 2374775121155910833L;
     private String resourceCode;
@@ -21,7 +24,13 @@ public class ResourceVO extends BaseVO {
     private String leafFlag;
     private String notes;
 
-    private List<ResourceVO> childrenNode;
+    private List<ResourcePO> childrenNode;
+
+    public ResourceDTO convertDTO() {
+        ResourceDTO resourceDTO = new ResourceDTO();
+        BeanCopyUtils.copyBean(this, resourceDTO);
+        return resourceDTO;
+    }
 
     public String getResourceCode() {
         return resourceCode;
@@ -95,11 +104,11 @@ public class ResourceVO extends BaseVO {
         this.notes = notes;
     }
 
-    public List<ResourceVO> getChildrenNode() {
+    public List<ResourcePO> getChildrenNode() {
         return childrenNode;
     }
 
-    public void setChildrenNode(List<ResourceVO> childrenNode) {
+    public void setChildrenNode(List<ResourcePO> childrenNode) {
         this.childrenNode = childrenNode;
     }
 

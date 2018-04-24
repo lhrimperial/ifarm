@@ -1,6 +1,6 @@
 package com.ifarm.console.mapper;
 
-import com.ifarm.console.shared.domain.dto.RoleInfoVO;
+import com.ifarm.console.shared.domain.po.RoleInfoPO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,13 +11,13 @@ import java.util.List;
 @Repository
 public interface RoleMapper {
 
-    List<RoleInfoVO> findByParam(RoleInfoVO roleInfoVO);
+    List<RoleInfoPO> findByParam(RoleInfoPO roleInfoPO);
 
-    long totalCount(RoleInfoVO roleInfoVO);
+    long totalCount(RoleInfoPO roleInfoPO);
 
-    RoleInfoVO findByRoleCode(String roleCode);
+    RoleInfoPO findByRoleCode(String roleCode);
 
-    int update(RoleInfoVO roleInfoVO);
+    int update(RoleInfoPO roleInfoPO);
 
-    int insert(RoleInfoVO roleInfoVO);
+    int insert(RoleInfoPO roleInfoPO);
 }

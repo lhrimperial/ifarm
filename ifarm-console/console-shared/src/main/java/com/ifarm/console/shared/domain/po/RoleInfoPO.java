@@ -1,13 +1,16 @@
-package com.ifarm.console.shared.domain.dto;
+package com.ifarm.console.shared.domain.po;
 
-import com.github.framework.server.shared.domain.vo.BaseVO;
+
+
+import com.github.framework.util.serializer.BeanCopyUtils;
+import com.ifarm.console.shared.domain.dto.RoleInfoDTO;
 
 import java.util.List;
 
 /**
  *
  */
-public class RoleInfoVO extends BaseVO {
+public class RoleInfoPO extends BasePO {
 
     private static final long serialVersionUID = 6418679032872085882L;
     private String roleCode;
@@ -15,6 +18,12 @@ public class RoleInfoVO extends BaseVO {
     private String notes;
 
     private List<String> permission;
+
+    public RoleInfoDTO convertDTO() {
+        RoleInfoDTO roleInfoDTO = new RoleInfoDTO();
+        BeanCopyUtils.copyBean(this, roleInfoDTO);
+        return roleInfoDTO;
+    }
 
     public List<String> getPermission() {
         return permission;

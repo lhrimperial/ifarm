@@ -4,11 +4,14 @@ import com.github.framework.util.string.StringUtils;
 import com.github.pagehelper.PageHelper;
 import com.ifarm.console.facade.service.IResourceService;
 import com.ifarm.console.mapper.ResourceMapper;
-import com.ifarm.console.shared.domain.define.IFarmConstants;
-import com.ifarm.console.shared.domain.dto.ResourceVO;
+import com.ifarm.console.shared.define.IFarmConstants;
+import com.ifarm.console.shared.domain.dto.ResourceDTO;
+import com.ifarm.console.shared.domain.po.ResourcePO;
+import com.ifarm.console.shared.domain.vo.ResourceVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,21 +24,39 @@ public class ResourceServiceImpl implements IResourceService {
     @Autowired
     private ResourceMapper resourceMapper;
 
-    @Override
-    public List<ResourceVO> findMenuByUserName(String userName) {
-        if (StringUtils.isBlank(userName)) {
-            throw new IllegalArgumentException("参数不能为空!");
+    private void check(ResourceVO resourceVO) {
+        if (resourceVO == null || resourceVO.getResourceDTO() == null) {
+            throw new IllegalArgumentException("参数不能为空！");
         }
-        return resourceMapper.findMenuResources(userName);
     }
 
     @Override
-    public List<ResourceVO> findByParam(ResourceVO resourceVO) {
-        if (resourceVO == null) {
-            throw new IllegalArgumentException("参数不能为空！");
+    public List<ResourceDTO> findMenuByUserName(String userName) {
+        if (StringUtils.isBlank(userName)) {
+            throw new IllegalArgumentException("参数不能为空!");
         }
+        List<ResourceDTO> result = new ArrayList<>();
+        List<ResourcePO> resourcePOS = resourceMapper.findMenuResources(userName);
+        for (ResourcePO po : resourcePOS) {
+            result.add(po.convertDTO());
+        }
+        return result;
+    }
+
+    @Override
+    public ResourceVO findByParam(ResourceVO resourceVO) {
+        this.check(resourceVO);
+        //query
+        List<ResourceDTO> result = new ArrayList<>();
+        ResourcePO resourcePO = resourceVO.getResourceDTO().convertPO();
         PageHelper.startPage(resourceVO.getPage(), resourceVO.getLimit());
-        return resourceMapper.findByParam(resourceVO);
+        List<ResourcePO> resourcePOS = resourceMapper.findByParam(resourcePO);
+        for (ResourcePO po : resourcePOS) {
+            result.add(po.convertDTO());
+        }
+        resourceVO.setResourceDTOS(result);
+        resourceVO.setTotalCount(resourceMapper.totalCount(resourcePO));
+        return resourceVO;
     }
 
     @Override
@@ -43,15 +64,20 @@ public class ResourceServiceImpl implements IResourceService {
         if (StringUtils.isBlank(resCode)){
             throw new IllegalArgumentException("参数不能为空！");
         }
-        return resourceMapper.findByResCode(resCode);
+        ResourceVO resourceVO = new ResourceVO();
+        ResourcePO resourcePO = resourceMapper.findByResCode(resCode);
+        if (resourcePO != null) {
+            resourceVO.setResourceDTO(resourcePO.convertDTO());
+        }
+        return resourceVO;
     }
 
     @Override
     public long totalCount(ResourceVO resourceVO) {
-        if (resourceVO == null) {
-            throw new IllegalArgumentException("参数不能为空！");
-        }
-        return resourceMapper.totalCount(resourceVO);
+        this.check(resourceVO);
+        //query
+        ResourcePO resourcePO =  resourceVO.getResourceDTO().convertPO();
+        return resourceMapper.totalCount(resourcePO);
     }
 
     @Override
@@ -59,30 +85,30 @@ public class ResourceServiceImpl implements IResourceService {
         if (StringUtils.isBlank(resCode)){
             throw new IllegalArgumentException("参数不能为空！");
         }
-        ResourceVO resourceVO = new ResourceVO();
-        resourceVO.setResourceCode(resCode);
-        resourceVO.setModifyTime(new Date());
-        resourceVO.setActive(IFarmConstants.INACTIVE);
-        return resourceMapper.update(resourceVO);
+        ResourcePO resourcePO = new ResourcePO();
+        resourcePO.setResourceCode(resCode);
+        resourcePO.setModifyTime(new Date());
+        resourcePO.setActive(IFarmConstants.INACTIVE);
+        return resourceMapper.update(resourcePO);
     }
 
     @Override
     public int update(ResourceVO resourceVO) {
-        if (resourceVO == null) {
-            throw new IllegalArgumentException("参数不能为空！");
-        }
-        resourceVO.setModifyTime(new Date());
-        return resourceMapper.update(resourceVO);
+        this.check(resourceVO);
+        //update
+        ResourcePO resourcePO = resourceVO.getResourceDTO().convertPO();
+        resourcePO.setModifyTime(new Date());
+        return resourceMapper.update(resourcePO);
     }
 
     @Override
     public int insert(ResourceVO resourceVO) {
-        if (resourceVO == null) {
-            throw new IllegalArgumentException("参数不能为空！");
-        }
-        resourceVO.setActive(IFarmConstants.ACTIVE);
-        resourceVO.setCreateTime(new Date());
-        resourceVO.setModifyTime(new Date());
-        return resourceMapper.insert(resourceVO);
+        this.check(resourceVO);
+        //insert
+        ResourcePO resourcePO = resourceVO.getResourceDTO().convertPO();
+        resourcePO.setActive(IFarmConstants.ACTIVE);
+        resourcePO.setCreateTime(new Date());
+        resourcePO.setModifyTime(new Date());
+        return resourceMapper.insert(resourcePO);
     }
 }

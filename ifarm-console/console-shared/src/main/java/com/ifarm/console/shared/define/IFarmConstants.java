@@ -1,4 +1,4 @@
-package com.ifarm.console.shared.domain.define;
+package com.ifarm.console.shared.define;
 
 /**
  *

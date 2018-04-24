@@ -1,13 +1,16 @@
-package com.ifarm.console.shared.domain.dto;
+package com.ifarm.console.shared.domain.po;
 
-import com.github.framework.server.shared.domain.vo.BaseVO;
+
+
+import com.github.framework.util.serializer.BeanCopyUtils;
+import com.ifarm.console.shared.domain.dto.UserInfoDTO;
 
 import java.util.List;
 
 /**
  *
  **/
-public class UserInfoVO extends BaseVO{
+public class UserInfoPO extends BasePO {
     private static final long serialVersionUID = -5402091371261060045L;
     private String userName;
     private String password;
@@ -21,21 +24,17 @@ public class UserInfoVO extends BaseVO{
 
     private List<String> roles;
     private List<String> permissions;
-    private List<ResourceVO> menuResources;
 
-    public String getCredentialsSalt(){
-        return userName;
+    public UserInfoDTO convertDTO() {
+        UserInfoDTO dto = new UserInfoDTO();
+        BeanCopyUtils.copyBean(this, dto);
+        return dto;
     }
 
-    public void clearCredentialsSalt() {
-        this.password = null;
-        this.salt = null;
+    public UserInfoPO( ) {
     }
 
-    public UserInfoVO() {
-    }
-
-    public UserInfoVO(String userName, String empCode, String deptCode) {
+    public UserInfoPO(String userName, String empCode, String deptCode) {
         this.userName = userName;
         this.empCode = empCode;
         this.deptCode = deptCode;
@@ -129,11 +128,4 @@ public class UserInfoVO extends BaseVO{
         this.roles = roles;
     }
 
-    public List<ResourceVO> getMenuResources() {
-        return menuResources;
-    }
-
-    public void setMenuResources(List<ResourceVO> menuResources) {
-        this.menuResources = menuResources;
-    }
 }

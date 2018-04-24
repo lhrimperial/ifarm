@@ -1,11 +1,13 @@
 package com.ifarm.console.facade.controller;
 
-import com.github.framework.server.shared.domain.vo.ResponseVO;
 import com.ifarm.console.facade.context.ConsoleContext;
 import com.ifarm.console.facade.service.IResourceService;
 import com.ifarm.console.facade.service.IUserInfoService;
-import com.ifarm.console.shared.domain.dto.ResourceVO;
-import com.ifarm.console.shared.domain.dto.UserInfoVO;
+import com.ifarm.console.shared.domain.dto.ResourceDTO;
+import com.ifarm.console.shared.domain.dto.UserInfoDTO;
+import com.ifarm.console.shared.domain.po.UserInfoPO;
+import com.ifarm.console.shared.domain.vo.ResponseVO;
+import com.ifarm.console.shared.domain.vo.UserInfoVO;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -21,7 +23,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
-import static com.ifarm.console.shared.domain.define.ResponseCode.*;
+import static com.ifarm.console.shared.define.ResponseCode.*;
 
 /**
  *
@@ -41,15 +43,15 @@ public class LoginController extends AbstractController{
      * @return
      */
     @RequestMapping("/login")
-    public ResponseVO<Map<String,Object>> login(@RequestBody UserInfoVO userInfoVO, HttpSession session) {
+    public ResponseVO<Map<String,Object>> login(@RequestBody UserInfoPO userInfoVO, HttpSession session) {
         ResponseVO responseVO = null;
         UsernamePasswordToken token = new UsernamePasswordToken(userInfoVO.getUserName(), userInfoVO.getPassword());
         Subject subject = SecurityUtils.getSubject();
         try {
             subject.login(token);
             //User
-            UserInfoVO userdetail = userInfoService.findByUserName(userInfoVO.getUserName());
-            ConsoleContext.setCurrentUser(userdetail);
+            UserInfoDTO userDetail = userInfoService.findByUserName(userInfoVO.getUserName());
+            ConsoleContext.setCurrentUser(userDetail);
 
             Map<String, Object> resultMap = new HashedMap();
             resultMap.put("Authorization", session.getId());
@@ -83,22 +85,14 @@ public class LoginController extends AbstractController{
     public ResponseVO userInfo() {
         ResponseVO<UserInfoVO> responseVO = returnSuccess();
         try {
+            UserInfoVO userInfoVO = new UserInfoVO();
             String userName = ConsoleContext.getCurrentUserName();
-            UserInfoVO userInfoVO = userInfoService.findByUserName(userName);
+            UserInfoDTO userInfoDTO = userInfoService.findByUserName(userName);
+            userInfoDTO.clearCredentialsSalt();
+            List<ResourceDTO> userMenus = resourceService.findMenuByUserName(userName);
+            userInfoVO.setUserInfoDTO(userInfoDTO);
+            userInfoVO.setUserMenus(userMenus);
             responseVO.setResult(userInfoVO);
-        } catch (Exception e) {
-            logger.error("", e);
-            return returnError(e.getMessage());
-        }
-        return responseVO;
-    }
-
-    @RequestMapping("/userMenu")
-    public ResponseVO<List<ResourceVO>> userMenu() {
-        ResponseVO responseVO = returnSuccess();
-        try {
-            List<ResourceVO> resourceVOS = resourceService.findMenuByUserName(ConsoleContext.getCurrentUserName());
-            responseVO.setResult(resourceVOS);
         } catch (Exception e) {
             logger.error("", e);
             return returnError(e.getMessage());

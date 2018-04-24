@@ -1,21 +1,21 @@
 package com.ifarm.console.facade.service;
 
-import com.ifarm.console.shared.domain.dto.UserInfoVO;
+import com.ifarm.console.shared.domain.dto.UserInfoDTO;
+import com.ifarm.console.shared.domain.vo.UserInfoVO;
 
-import java.util.List;
 
 /**
  *
  **/
 public interface IUserInfoService {
 
-    List<UserInfoVO> findByParam(UserInfoVO userInfoVO);
+    UserInfoVO findByParam(UserInfoVO userInfoVO);
 
     long totalCount(UserInfoVO userInfoVO);
 
-    UserInfoVO findByUserName(String userName);
+    UserInfoDTO findByUserName(String userName);
 
-    UserInfoVO findLoginUser(String userName);
+    UserInfoDTO findLoginUser(String userName);
 
     void changePassword(UserInfoVO userInfoVO);
 

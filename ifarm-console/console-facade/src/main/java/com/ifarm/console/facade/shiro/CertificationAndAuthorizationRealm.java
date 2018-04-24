@@ -1,8 +1,10 @@
 package com.ifarm.console.facade.shiro;
 
 import com.ifarm.console.facade.service.IUserInfoService;
-import com.ifarm.console.shared.domain.define.IFarmConstants;
-import com.ifarm.console.shared.domain.dto.UserInfoVO;
+import com.ifarm.console.shared.define.IFarmConstants;
+import com.ifarm.console.shared.domain.dto.UserInfoDTO;
+import com.ifarm.console.shared.domain.po.UserInfoPO;
+import com.ifarm.console.shared.domain.vo.UserInfoVO;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -33,9 +35,9 @@ public class CertificationAndAuthorizationRealm extends AuthorizingRealm {
         logger.info("权限配置-->CertificationAndAuthorizationRealm.doGetAuthorizationInfo()");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         String userName = (String) principals.getPrimaryPrincipal();
-        UserInfoVO userInfoVO = userInfoService.findByUserName(userName);
-        authorizationInfo.addRoles(userInfoVO.getRoles());
-        authorizationInfo.addStringPermissions(userInfoVO.getPermissions());
+        UserInfoDTO userInfoDTO = userInfoService.findByUserName(userName);
+        authorizationInfo.addRoles(userInfoDTO.getRoles());
+        authorizationInfo.addStringPermissions(userInfoDTO.getPermissions());
 
         return authorizationInfo;
     }
@@ -50,7 +52,7 @@ public class CertificationAndAuthorizationRealm extends AuthorizingRealm {
         //获取用户的输入的账号.
         String userName = (String) token.getPrincipal();
         //实际项目中，这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
-        UserInfoVO userInfo = userInfoService.findLoginUser(userName);
+        UserInfoDTO userInfo = userInfoService.findLoginUser(userName);
         if (userInfo == null) {
            throw new AuthenticationException();
         }

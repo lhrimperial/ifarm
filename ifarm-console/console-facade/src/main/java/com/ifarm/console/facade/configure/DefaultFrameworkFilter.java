@@ -1,10 +1,8 @@
 package com.ifarm.console.facade.configure;
 
-import com.github.framework.server.cache.exception.security.UserNotLoginException;
 import com.github.framework.util.string.StringUtils;
 import com.ifarm.console.facade.context.ConsoleContext;
 import com.ifarm.console.facade.context.Token;
-import com.ifarm.console.facade.context.TokenMarshal;
 import org.apache.shiro.web.util.WebUtils;
 
 import javax.servlet.*;

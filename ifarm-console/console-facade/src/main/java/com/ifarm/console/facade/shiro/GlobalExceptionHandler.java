@@ -1,7 +1,7 @@
 package com.ifarm.console.facade.shiro;
 
 import com.alibaba.fastjson.JSON;
-import com.github.framework.server.shared.domain.vo.ResponseVO;
+import com.ifarm.console.shared.domain.vo.ResponseVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

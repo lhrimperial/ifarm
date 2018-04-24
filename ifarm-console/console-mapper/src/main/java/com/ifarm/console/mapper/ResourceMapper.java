@@ -1,6 +1,6 @@
 package com.ifarm.console.mapper;
 
-import com.ifarm.console.shared.domain.dto.ResourceVO;
+import com.ifarm.console.shared.domain.po.ResourcePO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,15 +11,15 @@ import java.util.List;
 @Repository
 public interface ResourceMapper {
 
-    List<ResourceVO> findMenuResources(String userName);
+    List<ResourcePO> findMenuResources(String userName);
 
-    List<ResourceVO> findByParam(ResourceVO resourceVO);
+    List<ResourcePO> findByParam(ResourcePO resourcePO);
 
-    long totalCount(ResourceVO resourceVO);
+    long totalCount(ResourcePO resourcePO);
 
-    ResourceVO findByResCode(String resCode);
+    ResourcePO findByResCode(String resCode);
 
-    int update(ResourceVO resourceVO);
+    int update(ResourcePO resourcePO);
 
-    int insert(ResourceVO resourceVO);
+    int insert(ResourcePO resourcePO);
 }

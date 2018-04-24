@@ -3,8 +3,8 @@ package com.ifarm.console;
 import com.alibaba.fastjson.JSON;
 import com.ifarm.console.mapper.ResourceMapper;
 import com.ifarm.console.mapper.UserMapper;
-import com.ifarm.console.shared.domain.dto.ResourceVO;
-import com.ifarm.console.shared.domain.dto.UserInfoVO;
+import com.ifarm.console.shared.domain.po.ResourcePO;
+import com.ifarm.console.shared.domain.po.UserInfoPO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,13 +23,13 @@ public class PersistentTest extends AbstractTest {
 
     @Test
     public void test1() {
-        List<ResourceVO> list = resourceMapper.findMenuResources("admin");
+        List<ResourcePO> list = resourceMapper.findMenuResources("admin");
         System.out.println(JSON.toJSONString(list));
     }
 
     @Test
     public void test() {
-        UserInfoVO userInfoVO = userMapper.findByUserName("admin");
+        UserInfoPO userInfoVO = userMapper.findByUserName("admin");
         System.out.println(JSON.toJSONString(userInfoVO));
     }
 }

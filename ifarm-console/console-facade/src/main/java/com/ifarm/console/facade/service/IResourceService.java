@@ -1,17 +1,19 @@
 package com.ifarm.console.facade.service;
 
-import com.ifarm.console.shared.domain.dto.ResourceVO;
+import com.ifarm.console.shared.domain.dto.ResourceDTO;
+import com.ifarm.console.shared.domain.vo.ResourceVO;
 
 import java.util.List;
+
 
 /**
  *
  */
 public interface IResourceService {
 
-    List<ResourceVO> findMenuByUserName(String userName);
+    List<ResourceDTO> findMenuByUserName(String userName);
 
-    List<ResourceVO> findByParam(ResourceVO resourceVO);
+    ResourceVO findByParam(ResourceVO resourceVO);
 
     ResourceVO findByResCode(String resCode);
 

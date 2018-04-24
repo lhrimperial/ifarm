@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ifarm.console.mapper.RoleMapper">
-    <resultMap id="BaseResultMap" type="com.ifarm.console.shared.domain.dto.RoleInfoVO">
+    <resultMap id="BaseResultMap" type="com.ifarm.console.shared.domain.po.RoleInfoPO">
         <result column="id" property="tid"/>
         <result column="role_code" property="roleCode"/>
         <result column="role_name" property="roleName"/>
@@ -30,7 +30,7 @@
         </if>
     </sql>
 
-    <select id="totalCount" parameterType="com.ifarm.console.shared.domain.dto.RoleInfoVO" resultType="java.lang.Long">
+    <select id="totalCount" parameterType="com.ifarm.console.shared.domain.po.RoleInfoPO" resultType="java.lang.Long">
         select count(*)
         from t_console_role r
         <where>
@@ -38,7 +38,7 @@
         </where>
     </select>
 
-    <select id="findByParam" parameterType="com.ifarm.console.shared.domain.dto.RoleInfoVO" resultMap="BaseResultMap">
+    <select id="findByParam" parameterType="com.ifarm.console.shared.domain.po.RoleInfoPO" resultMap="BaseResultMap">
         select <include refid="columns_sql"/>
         from t_console_role r
         <where>
@@ -52,7 +52,7 @@
         where r.role_code = #{roleCode}
     </select>
 
-    <update id="update" parameterType="com.ifarm.console.shared.domain.dto.RoleInfoVO">
+    <update id="update" parameterType="com.ifarm.console.shared.domain.po.RoleInfoPO">
         update t_console_role
         <set>
             <if test="roleName != null and roleName != ''">
@@ -78,7 +78,7 @@
         </where>
     </update>
 
-    <insert id="insert" parameterType="com.ifarm.console.shared.domain.dto.RoleInfoVO">
+    <insert id="insert" parameterType="com.ifarm.console.shared.domain.po.RoleInfoPO">
         insert into t_console_role(role_code,role_name,notes,active,create_time,modify_time)
         values(#{roleCode},#{roleName},#{notes},#{active},#{createTime},#{modifyTime})
     </insert>

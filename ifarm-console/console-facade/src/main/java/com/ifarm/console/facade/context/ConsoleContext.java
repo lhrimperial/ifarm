@@ -1,10 +1,8 @@
 package com.ifarm.console.facade.context;
 
-import com.github.framework.server.cache.exception.security.UserNotLoginException;
-import com.github.framework.server.context.SessionContext;
-import com.github.framework.server.shared.define.Definitions;
 import com.github.framework.util.string.StringUtils;
-import com.ifarm.console.shared.domain.dto.UserInfoVO;
+import com.ifarm.console.shared.domain.dto.UserInfoDTO;
+import com.ifarm.console.shared.exception.UserNotLoginException;
 
 /**
  *
@@ -13,7 +11,7 @@ public class ConsoleContext {
 
     private ConsoleContext(){}
 
-    static final ThreadLocal<UserInfoVO> userInfoStore = new ThreadLocal<>();
+    static final ThreadLocal<UserInfoDTO> userInfoStore = new ThreadLocal<>();
 
     /**
      * 通过前端设置当前会话的登录用户
@@ -25,8 +23,8 @@ public class ConsoleContext {
         } else {
             Token token = TokenMarshal.unMarshal(paramToken);
             if (token != null && !token.expired()) {
-                UserInfoVO userInfoVO = new UserInfoVO(token.getUserId(), token.getEmpCode(), token.getCurrentDeptCode());
-                setCurrentUser(userInfoVO);
+                UserInfoDTO userInfoDTO = new UserInfoDTO(token.getUserId(), token.getEmpCode(), token.getCurrentDeptCode());
+                setCurrentUser(userInfoDTO);
             } else {
                 throw new UserNotLoginException();// 用户未登录
             }
@@ -37,13 +35,13 @@ public class ConsoleContext {
      * 获取Token字符串
      */
     public static String getTokenParam() {
-        UserInfoVO userInfoVO = userInfoStore.get();
-        if (userInfoVO == null) {
+        UserInfoDTO userInfoPO = userInfoStore.get();
+        if (userInfoPO == null) {
             throw new UserNotLoginException();
         }
-        String userName = userInfoVO.getUserName();
-        String empCode = userInfoVO.getEmpCode();
-        String currentDeptCode = userInfoVO.getDeptCode();
+        String userName = userInfoPO.getUserName();
+        String empCode = userInfoPO.getEmpCode();
+        String currentDeptCode = userInfoPO.getDeptCode();
         Token token = new Token(userName,
                 empCode, currentDeptCode, Token.DEFAULT_EXPIRE);
         return TokenMarshal.marshal(token);
@@ -51,17 +49,17 @@ public class ConsoleContext {
 
     /**
      * 设置当前登录用户信息
-     * @param userInfoVO
+     * @param userInfoDTO
      */
-    public static void setCurrentUser(UserInfoVO userInfoVO) {
-        userInfoStore.set(userInfoVO);
+    public static void setCurrentUser(UserInfoDTO userInfoDTO) {
+        userInfoStore.set(userInfoDTO);
     }
 
     /**
      * 获取当前登录用户信息
      * @return
      */
-    public static UserInfoVO getCurrentUser() {
+    public static UserInfoDTO getCurrentUser() {
         return userInfoStore.get();
     }
 
@@ -72,7 +70,7 @@ public class ConsoleContext {
      * @return UserEntity 当前用户
      */
     public static String getCurrentUserName() {
-        UserInfoVO user = userInfoStore.get();
+        UserInfoDTO user = userInfoStore.get();
         if (user == null) {
             throw new UserNotLoginException();
         }
