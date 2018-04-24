@@ -31,6 +31,7 @@ public class ClusterSessionManager extends DefaultWebSessionManager {
         String url = req.getRequestURL().toString();
         logger.info("request url:" + url);
         String id = WebUtils.toHttp(request).getHeader(AUTHORIZATION);
+        logger.info("Authorization : {}", id);
         //如果请求头中有 Authorization 则其值为sessionId
         if (!StringUtils.isEmpty(id)) {
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE, REFERENCED_SESSION_ID_SOURCE);

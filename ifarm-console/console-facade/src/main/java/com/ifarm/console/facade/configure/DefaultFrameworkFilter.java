@@ -24,9 +24,8 @@ public class DefaultFrameworkFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         //设置登录用户
-        String id = WebUtils.toHttp(request).getHeader("Authorization");
-        if (StringUtils.isNotBlank(id)) {
-            String paramToken = WebUtils.toHttp(request).getHeader(Token.JSESSIONID_TOKEN);
+        String paramToken = WebUtils.toHttp(request).getHeader(Token.JSESSIONID_TOKEN);
+        if (StringUtils.isNotBlank(paramToken) && !"undefined".equals(paramToken) && !"null".equals(paramToken)) {
             ConsoleContext.tokenToSession(paramToken);
         }
 
