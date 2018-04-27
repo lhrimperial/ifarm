@@ -132,6 +132,13 @@ public class LoginController extends AbstractController{
 
     @RequestMapping("/logout")
     public ResponseVO logout() {
+        try {
+            Subject subject = SecurityUtils.getSubject();
+            subject.logout();
+        } catch (Exception e) {
+            logger.error("", e);
+            return returnError();
+        }
         return returnSuccess();
     }
 

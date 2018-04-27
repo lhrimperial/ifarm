@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50628
 File Encoding         : 65001
 
-Date: 2018-04-26 13:39:05
+Date: 2018-04-27 14:18:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -64,12 +64,12 @@ CREATE TABLE `t_console_resource` (
 -- Records of t_console_resource
 -- ----------------------------
 INSERT INTO `t_console_resource` VALUES ('1', 'console_1', 'console系统', null, null, '1', '1', '1', null, null, 'N', 'Y', '2018-04-14 19:55:02', '2018-04-14 19:55:05');
-INSERT INTO `t_console_resource` VALUES ('2', 'console_101', '综合管理', 'colligateManage', 'console_1', '2', '2', '1', 'el-icon-setting', null, 'N', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
-INSERT INTO `t_console_resource` VALUES ('3', 'console_102', '基础数据', 'baseDataManage', 'console_1', '2', '2', '2', 'el-icon-menu', null, 'N', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
-INSERT INTO `t_console_resource` VALUES ('4', 'console_103', '系统设置', 'systemSettingManage', 'console_1', '2', '2', '3', 'el-icon-date', null, 'N', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
-INSERT INTO `t_console_resource` VALUES ('5', 'console_10201', '词条管理', 'termsCodeManage', 'console_102', '3', '3', '1', '', null, 'Y', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
-INSERT INTO `t_console_resource` VALUES ('6', 'console_10301', '用户管理', 'userManage', 'console_103', '3', '3', '1', '', null, 'Y', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
-INSERT INTO `t_console_resource` VALUES ('7', 'console_10302', '角色管理', 'roleManage', 'console_103', '3', '3', '2', '', null, 'Y', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
+INSERT INTO `t_console_resource` VALUES ('2', 'console_101', '综合管理', 'generalManagement', 'console_1', '2', '2', '1', 'el-icon-setting', null, 'N', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
+INSERT INTO `t_console_resource` VALUES ('3', 'console_102', '基础数据', 'baseDataManagement', 'console_1', '2', '2', '2', 'el-icon-menu', null, 'N', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
+INSERT INTO `t_console_resource` VALUES ('4', 'console_103', '系统设置', 'sysSettingManagement', 'console_1', '2', '2', '3', 'el-icon-date', null, 'N', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
+INSERT INTO `t_console_resource` VALUES ('5', 'console_10201', '词条管理', 'termsCodeManagement', 'console_102', '3', '3', '1', '', null, 'Y', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
+INSERT INTO `t_console_resource` VALUES ('6', 'console_10301', '用户管理', 'userManagement', 'console_103', '3', '3', '1', '', null, 'Y', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
+INSERT INTO `t_console_resource` VALUES ('7', 'console_10302', '角色管理', 'roleManagement', 'console_103', '3', '3', '2', '', null, 'Y', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
 
 -- ----------------------------
 -- Table structure for t_console_role
