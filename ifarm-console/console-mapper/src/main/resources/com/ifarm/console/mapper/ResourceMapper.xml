@@ -5,7 +5,8 @@
         <result column="id" property="tid"/>
         <result column="resource_code" property="resourceCode"/>
         <result column="resource_name" property="resourceName"/>
-        <result column="entry_url" property="entryUrl"/>
+        <result column="router" property="router"/>
+        <result column="component" property="component"/>
         <result column="parent_code" property="parentCode"/>
         <result column="resource_level" property="resourceLevel"/>
         <result column="resource_type" property="resourceType"/>
@@ -22,7 +23,8 @@
         <result column="id" property="tid"/>
         <result column="resource_code" property="resourceCode"/>
         <result column="resource_name" property="resourceName"/>
-        <result column="entry_url" property="entryUrl"/>
+        <result column="router" property="router"/>
+        <result column="component" property="component"/>
         <result column="parent_code" property="parentCode"/>
         <result column="resource_level" property="resourceLevel"/>
         <result column="resource_type" property="resourceType"/>
@@ -34,7 +36,8 @@
             <result column="ch_id" property="tid"/>
             <result column="ch_resource_code" property="resourceCode"/>
             <result column="ch_resource_name" property="resourceName"/>
-            <result column="ch_entry_url" property="entryUrl"/>
+            <result column="ch_router" property="router"/>
+            <result column="ch_component" property="component"/>
             <result column="ch_parent_code" property="parentCode"/>
             <result column="ch_resource_level" property="resourceLevel"/>
             <result column="ch_resource_type" property="resourceType"/>
@@ -46,7 +49,8 @@
                 <result column="gch_id" property="tid"/>
                 <result column="gch_resource_code" property="resourceCode"/>
                 <result column="gch_resource_name" property="resourceName"/>
-                <result column="gch_entry_url" property="entryUrl"/>
+                <result column="gch_router" property="router"/>
+                <result column="gch_component" property="component"/>
                 <result column="gch_parent_code" property="parentCode"/>
                 <result column="gch_resource_level" property="resourceLevel"/>
                 <result column="gch_resource_type" property="resourceType"/>
@@ -59,7 +63,7 @@
     </resultMap>
 
     <sql id="column_sql">
-        rs.id,rs.resource_code,rs.resource_name,rs.entry_url,rs.parent_code,rs.resource_level,rs.resource_type,rs.display_order,rs.node_icon,rs.notes,rs.leaf_flag,rs.active,rs.create_time,rs.modify_time
+        rs.id,rs.resource_code,rs.resource_name,rs.router,rs.component,rs.parent_code,rs.resource_level,rs.resource_type,rs.display_order,rs.node_icon,rs.notes,rs.leaf_flag,rs.active,rs.create_time,rs.modify_time
     </sql>
 
     <sql id="param_sql">
@@ -72,8 +76,8 @@
         <if test="resourceName != null and resourceName != ''">
             and rs.resource_name like concat('%',concat(#{resourceName},'%'))
         </if>
-        <if test="entryUrl != null and entryUrl != ''">
-            and rs.entry_url like concat('%',concat(#{entryUrl},'%'))
+        <if test="router != null and router != ''">
+            and rs.router like concat('%',concat(#{router},'%'))
         </if>
         <if test="parentCode != null and parentCode != ''">
             and rs.parent_code = #{parentCode}
@@ -103,7 +107,8 @@
         ,ch.id as ch_id,
         ch.resource_code as ch_resource_code,
         ch.resource_name as ch_resource_name,
-        ch.entry_url as ch_entry_url,
+        ch.router as ch_router,
+        ch.component as ch_component,
         ch.parent_code as ch_parent_code,
         ch.resource_level as ch_resource_level,
         ch.resource_type as ch_resource_type,
@@ -114,7 +119,8 @@
         gch.id as gch_id,
         gch.resource_code as gch_resource_code,
         gch.resource_name as gch_resource_name,
-        gch.entry_url as gch_entry_url,
+        gch.router as gch_router,
+        gch.component as gch_component,
         gch.parent_code as gch_parent_code,
         gch.resource_level as gch_resource_level,
         gch.resource_type as gch_resource_type,
@@ -163,8 +169,11 @@
             <if test="resourceName != null and resourceName != ''">
                 resource_name = #{resourceName},
             </if>
-            <if test="entryUrl != null and entryUrl != ''">
-                entry_url = #{entryUrl},
+            <if test="router != null and router != ''">
+                router = #{router},
+            </if>
+            <if test="component != null and component != ''">
+                component = #{component},
             </if>
             <if test="parentCode != null and parentCode != ''">
                 parent_code = #{parentCode},
@@ -205,7 +214,7 @@
     </update>
 
     <insert id="insert" parameterType="com.ifarm.console.shared.domain.po.ResourcePO">
-        insert into t_console_resource(resource_code,resource_name,entry_url,parent_code,resource_level,resource_type,display_order,node_icon,notes,leaf_flag,active,create_time,modify_time)
-        values(#{resource_code},#{resource_name},#{entry_url},#{parent_code},#{resource_level},#{resource_type},#{display_order},#{node_icon},#{notes},#{leaf_flag},#{active},#{create_time},#{modify_time})
+        insert into t_console_resource(resource_code,resource_name,router,component,parent_code,resource_level,resource_type,display_order,node_icon,notes,leaf_flag,active,create_time,modify_time)
+        values(#{resource_code},#{resource_name},#{router},#{component},#{parent_code},#{resource_level},#{resource_type},#{display_order},#{node_icon},#{notes},#{leaf_flag},#{active},#{create_time},#{modify_time})
     </insert>
 </mapper>

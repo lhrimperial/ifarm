@@ -15,7 +15,8 @@ public class ResourcePO extends BasePO {
     private static final long serialVersionUID = 2374775121155910833L;
     private String resourceCode;
     private String resourceName;
-    private String entryUrl;
+    private String router;
+    private String component;
     private String parentCode;
     private Integer resourceLevel;
     private Integer resourceType;
@@ -48,12 +49,20 @@ public class ResourcePO extends BasePO {
         this.resourceName = resourceName;
     }
 
-    public String getEntryUrl() {
-        return entryUrl;
+    public String getRouter() {
+        return router;
     }
 
-    public void setEntryUrl(String entryUrl) {
-        this.entryUrl = entryUrl;
+    public void setRouter(String router) {
+        this.router = router;
+    }
+
+    public String getComponent() {
+        return component;
+    }
+
+    public void setComponent(String component) {
+        this.component = component;
     }
 
     public String getParentCode() {
