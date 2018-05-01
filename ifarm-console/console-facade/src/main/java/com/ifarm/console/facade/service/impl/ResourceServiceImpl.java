@@ -31,6 +31,22 @@ public class ResourceServiceImpl implements IResourceService {
     }
 
     @Override
+    public List<ResourceDTO> findByParentCode(String parentCode) {
+        List<ResourceDTO> resourceDTOS = null;
+        if (StringUtils.isBlank(parentCode)) {
+            parentCode = "root";
+        }
+        List<ResourcePO> list = resourceMapper.findByParentCode(parentCode);
+        if (list != null && !list.isEmpty()) {
+            resourceDTOS = new ArrayList<>(list.size());
+            for (ResourcePO po : list) {
+                resourceDTOS.add(po.convertDTO());
+            }
+        }
+        return resourceDTOS;
+    }
+
+    @Override
     public List<ResourceDTO> findMenuByUserName(String userName) {
         if (StringUtils.isBlank(userName)) {
             throw new IllegalArgumentException("参数不能为空!");
@@ -49,7 +65,7 @@ public class ResourceServiceImpl implements IResourceService {
         //query
         List<ResourceDTO> result = new ArrayList<>();
         ResourcePO resourcePO = resourceVO.getResourceDTO().convertPO();
-        PageHelper.startPage(resourceVO.getPage(), resourceVO.getLimit());
+        PageHelper.startPage(resourceVO.getPageNo(), resourceVO.getPageSize());
         List<ResourcePO> resourcePOS = resourceMapper.findByParam(resourcePO);
         for (ResourcePO po : resourcePOS) {
             result.add(po.convertDTO());
@@ -60,36 +76,28 @@ public class ResourceServiceImpl implements IResourceService {
     }
 
     @Override
-    public ResourceVO findByResCode(String resCode) {
-        if (StringUtils.isBlank(resCode)){
+    public ResourceDTO findById(Integer id) {
+        if (id == null){
             throw new IllegalArgumentException("参数不能为空！");
         }
-        ResourceVO resourceVO = new ResourceVO();
-        ResourcePO resourcePO = resourceMapper.findByResCode(resCode);
+        ResourceDTO resourceDTO = null;
+        ResourcePO resourcePO = resourceMapper.findByById(id);
         if (resourcePO != null) {
-            resourceVO.setResourceDTO(resourcePO.convertDTO());
+            resourceDTO= resourcePO.convertDTO();
         }
-        return resourceVO;
+        return resourceDTO;
     }
 
     @Override
-    public long totalCount(ResourceVO resourceVO) {
-        this.check(resourceVO);
-        //query
-        ResourcePO resourcePO =  resourceVO.getResourceDTO().convertPO();
-        return resourceMapper.totalCount(resourcePO);
-    }
-
-    @Override
-    public int delete(String resCode) {
-        if (StringUtils.isBlank(resCode)){
-            throw new IllegalArgumentException("参数不能为空！");
+    public int delete(ResourceVO resourceVO) {
+        if (resourceVO == null) {
+            throw new IllegalArgumentException("参数不能为空");
         }
-        ResourcePO resourcePO = new ResourcePO();
-        resourcePO.setResourceCode(resCode);
-        resourcePO.setModifyTime(new Date());
-        resourcePO.setActive(IFarmConstants.INACTIVE);
-        return resourceMapper.update(resourcePO);
+        List<Integer> ids = resourceVO.getIds();
+        if (ids == null || ids.isEmpty()) {
+            return 0;
+        }
+        return resourceMapper.updateActiveByIds(ids, IFarmConstants.INACTIVE);
     }
 
     @Override

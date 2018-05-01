@@ -101,6 +101,16 @@
         </if>
     </sql>
 
+    <select id="findByParentCode" resultMap="BaseResultMap">
+        select <include refid="column_sql"/>
+        from t_console_resource rs
+        <where>
+            <if test="parentCode != null and parentCode != ''">
+                and rs.parent_code = #{parentCode}
+            </if>
+        </where>
+    </select>
+
 
     <select id="findMenuResources" parameterType="java.lang.String" resultMap="MenuResultMap">
         select <include refid="column_sql"/>
@@ -157,11 +167,20 @@
         </where>
     </select>
 
-    <select id="findByResCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="findByById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select <include refid="column_sql"/>
         from t_console_resource rs
-        where rs.resource_code = #{resourceCode}
+        where rs.id = #{id}
     </select>
+
+    <update id="updateActiveByIds">
+        update t_console_resource
+        set active = #{active}
+        where id in
+        <foreach collection="ids" open="(" close=")" item="item" separator=",">
+            #{item}
+        </foreach>
+    </update>
 
     <update id="update" parameterType="com.ifarm.console.shared.domain.po.ResourcePO">
         update t_console_resource

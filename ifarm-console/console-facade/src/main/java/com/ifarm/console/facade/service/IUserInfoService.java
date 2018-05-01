@@ -9,6 +9,8 @@ import com.ifarm.console.shared.domain.vo.UserInfoVO;
  **/
 public interface IUserInfoService {
 
+    UserInfoDTO findById(Integer tid);
+
     UserInfoVO findByParam(UserInfoVO userInfoVO);
 
     long totalCount(UserInfoVO userInfoVO);
@@ -19,7 +21,7 @@ public interface IUserInfoService {
 
     void changePassword(UserInfoVO userInfoVO);
 
-    void register(UserInfoVO userInfoVO);
+    int delete(UserInfoVO userInfoVO);
 
     int delete(String userName);
 

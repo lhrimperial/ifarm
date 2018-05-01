@@ -9,8 +9,17 @@ import java.util.List;
  */
 public class RoleInfoVO extends BaseVO {
 
+    private List<Integer> ids;
     private RoleInfoDTO roleInfoDTO;
     private List<RoleInfoDTO> roleInfoDTOS;
+
+    public List<Integer> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<Integer> ids) {
+        this.ids = ids;
+    }
 
     public RoleInfoDTO getRoleInfoDTO() {
         return roleInfoDTO;

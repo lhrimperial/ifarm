@@ -28,7 +28,7 @@
     </resultMap>
 
     <sql id="columns_sql">
-        u.id,u.user_name,u.password,u.nick_name,u.salt,u.email,u.mobile_no,u.emp_code,u.dept_code,u.notes,u.active,u.create_time,u.modify_time
+        u.id,u.user_name,u.nick_name,u.email,u.mobile_no,u.emp_code,u.dept_code,u.notes,u.active,u.create_time,u.modify_time
     </sql>
 
     <sql id="param_sql">
@@ -64,6 +64,12 @@
         </if>
     </sql>
 
+    <select id="findById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select <include refid="columns_sql"/>
+        ,u.password
+        ,u.salt
+        from t_console_user u where u.id = #{tid}
+    </select>
 
     <select id="totalCount" parameterType="com.ifarm.console.shared.domain.po.UserInfoPO" resultType="java.lang.Long">
         select count(*)
@@ -79,10 +85,13 @@
         <where>
             <include refid="param_sql"/>
         </where>
+        order by id desc
     </select>
 
     <select id="findByUserName" parameterType="java.lang.String" resultMap="ResultWithRoleMap">
         select <include refid="columns_sql"/>
+        ,u.password
+        ,u.salt
         ,r.role_code
         ,p.permission
         from t_console_user u
@@ -95,9 +104,21 @@
 
     <select id="findLoginUser" parameterType="java.lang.String" resultMap="BaseResultMap">
         select <include refid="columns_sql"/>
+        ,u.password
+        ,u.salt
         from t_console_user u
         where u.user_name = #{userName}
     </select>
+
+    <update id="updateActive" parameterType="java.util.List">
+        update t_console_user set active = #{active}
+        <where>
+            id in
+            <foreach collection="ids" open="(" close=")" item="item" separator=",">
+                #{item}
+            </foreach>
+        </where>
+    </update>
 
     <update id="update" parameterType="com.ifarm.console.shared.domain.po.UserInfoPO">
         update t_console_user

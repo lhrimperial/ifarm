@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ifarm.console.mapper.TermsValueMapper">
+    <!--The file was generated on 2017-11-06 14:52:56 by Administrator-->
+    <resultMap id="BaseResultMap" type="com.ifarm.console.shared.domain.po.TermsValuePO">
+        <id column="id" property="tid"/>
+        <result column="value_code" property="valueCode"/>
+        <result column="value_name" property="valueName"/>
+        <result column="terms_code" property="termsCode"/>
+        <result column="terms_name" property="termsName"/>
+        <result column="value_seq" property="valueSeq"/>
+        <result column="notes" property="notes"/>
+        <result column="active" property="active"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, value_code, value_name, terms_code, terms_name, value_seq, notes, active, create_time, modify_time
+    </sql>
+
+    <sql id="param_sql">
+        <if test="valueName != null and valueName != ''">
+            and value_name like concat('%',concat(#{valueName},'%'))
+        </if>
+        <if test="termsName != null and termsName != ''">
+            and terms_name like concat('%',concat(#{termsName},'%'))
+        </if>
+        <if test="termsCode != null and termsCode != ''">
+            and terms_code = #{termsCode}
+        </if>
+        <if test="active != null and active != ''">
+            and active = #{active}
+        </if>
+        <if test="tid != null">
+            and id = #{tid}
+        </if>
+        <if test="valueCode != null and valueCode != ''">
+            and value_code = #{valueCode}
+        </if>
+    </sql>
+
+    <select id="findByID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from t_data_termsvalue where id = #{tid}
+    </select>
+
+    <select id="findTermsValueByParam" parameterType="com.ifarm.console.shared.domain.po.TermsValuePO" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from t_data_termsvalue
+        <where>
+            <include refid="param_sql"/>
+        </where>
+    </select>
+
+    <select id="totalCount" parameterType="com.ifarm.console.shared.domain.po.TermsValuePO" resultType="java.lang.Long">
+        select count(id)
+        from t_data_termsvalue
+        <where>
+            <include refid="param_sql"/>
+        </where>
+    </select>
+
+    <select id="findByTermsCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from t_data_termsvalue
+        where terms_code = #{termsCode}
+    </select>
+
+    <select id="findByTermsCodeAndValueCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from t_data_termsvalue
+        where terms_code = #{termsCode} and value_code = #{valueCode}
+    </select>
+
+    <insert id="insert" parameterType="com.ifarm.console.shared.domain.po.TermsValuePO">
+        insert into t_data_termsvalue (value_code, value_name, terms_code, terms_name, value_seq, notes, active, create_time, modify_time)
+        values (#{valueCode}, #{valueName}, #{termsCode}, #{termsName}, #{valueSeq}, #{notes}, #{active}, #{createTime}, #{modifyTime})
+      </insert>
+
+    <sql id="update_sql">
+        <if test="valueName != null and valueName != ''">
+            value_name = #{valueName},
+        </if>
+        <if test="termsName != null and termsName != ''">
+            terms_name = #{termsName},
+        </if>
+        <if test="termsCode != null and termsCode != ''">
+            terms_code = #{termsCode},
+        </if>
+        <if test="valueSeq != null">
+            value_seq = #{valueSeq},
+        </if>
+        <if test="notes != null">
+            notes = #{notes},
+        </if>
+        <if test="active != null and active != ''">
+            active = #{active},
+        </if>
+        <if test="createTime != null">
+            create_time = #{createTime},
+        </if>
+        <if test="modifyTime != null">
+            modify_time = #{modifyTime},
+        </if>
+    </sql>
+
+    <update id="update" parameterType="com.ifarm.console.shared.domain.po.TermsValuePO">
+        update t_data_termsvalue
+        <trim prefix="set" suffixOverrides=",">
+            <include refid="update_sql"/>
+        </trim>
+        <where>
+            <if test="tid != null">
+                and id = #{tid}
+            </if>
+            <if test="valueCode != null and valueCode != ''">
+                and value_code = #{valueCode}
+            </if>
+        </where>
+    </update>
+
+    <update id="updateBatch" parameterType="java.util.List">
+        update t_data_termsvalue
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="active =case" suffix="end">
+                <foreach collection="list" item="item" index="index">
+                    when value_code = #{valueCode} then
+                    <trim suffixOverrides=",">
+                        <if test="item.valueName != null and item.valueName != ''">
+                            value_name = #{item.valueName},
+                        </if>
+                        <if test="item.termsName != null and item.termsName != ''">
+                            terms_name = #{item.termsName},
+                        </if>
+                        <if test="item.termsCode != null and item.termsCode != ''">
+                            terms_code = #{item.termsCode},
+                        </if>
+                        <if test="item.valueSeq != null">
+                            value_seq = #{item.valueSeq},
+                        </if>
+                        <if test="item.notes != null">
+                            notes = #{item.notes},
+                        </if>
+                        <if test="item.active != null and item.active != null">
+                            active = #{item.active},
+                        </if>
+                        <if test="item.createTime != null">
+                            create_time = #{item.createTime},
+                        </if>
+                        <if test="modifyTime != null">
+                            modify_time = #{item.modifyTime},
+                        </if>
+                    </trim>
+                </foreach>
+            </trim>
+        </trim>
+        where value_code in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.valueCode}
+        </foreach>
+    </update>
+
+    <update id="updateTermsValueByTermsCode" parameterType="com.ifarm.console.shared.domain.po.TermsCodePO">
+        update t_data_termsvalue
+        <trim prefix="set" suffixOverrides=",">
+            terms_name = #{termsName}
+        </trim>
+        <where>
+            terms_code = #{termsCode}
+        </where>
+    </update>
+
+    <update id="updateActiveByIds" >
+        update t_data_termsvalue
+        set active = #{active}
+        where id in
+        <foreach collection="ids" index="index" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+</mapper>

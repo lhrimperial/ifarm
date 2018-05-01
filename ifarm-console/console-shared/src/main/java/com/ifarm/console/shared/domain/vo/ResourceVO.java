@@ -9,8 +9,17 @@ import java.util.List;
  */
 public class ResourceVO extends BaseVO {
 
+    private List<Integer> ids;
     private ResourceDTO resourceDTO;
     private List<ResourceDTO> resourceDTOS;
+
+    public List<Integer> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<Integer> ids) {
+        this.ids = ids;
+    }
 
     public ResourceDTO getResourceDTO() {
         return resourceDTO;

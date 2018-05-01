@@ -20,7 +20,6 @@ public class UserInfoDTO extends BaseDTO {
     private String empCode;
     private String deptCode;
     private String notes;
-    private String active;
 
     private List<String> roles;
     private List<String> permissions;
@@ -46,14 +45,6 @@ public class UserInfoDTO extends BaseDTO {
         this.userName = userName;
         this.empCode = empCode;
         this.deptCode = deptCode;
-    }
-
-    public String getActive() {
-        return active;
-    }
-
-    public void setActive(String active) {
-        this.active = active;
     }
 
     public String getUserName() {

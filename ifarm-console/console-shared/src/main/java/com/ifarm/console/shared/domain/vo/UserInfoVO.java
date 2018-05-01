@@ -10,9 +10,18 @@ import java.util.List;
  */
 public class UserInfoVO extends BaseVO {
 
+    private List<Integer> ids;
     private UserInfoDTO userInfoDTO;
     private List<UserInfoDTO> userInfoDTOS;
     private List<ResourceDTO> userMenus;
+
+    public List<Integer> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<Integer> ids) {
+        this.ids = ids;
+    }
 
     public List<ResourceDTO> getUserMenus() {
         return userMenus;

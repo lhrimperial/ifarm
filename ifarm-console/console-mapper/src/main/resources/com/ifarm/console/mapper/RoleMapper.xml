@@ -46,11 +46,20 @@
         </where>
     </select>
 
-    <select id="findByRoleCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="findById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select <include refid="columns_sql"/>
         from t_console_role r
-        where r.role_code = #{roleCode}
+        where r.id = #{tid}
     </select>
+
+    <update id="updateActiveByIds">
+        update t_console_role
+        set active = #{active}
+        where id in
+        <foreach collection="ids" open="(" close=")" item="item" separator=",">
+            #{item}
+        </foreach>
+    </update>
 
     <update id="update" parameterType="com.ifarm.console.shared.domain.po.RoleInfoPO">
         update t_console_role

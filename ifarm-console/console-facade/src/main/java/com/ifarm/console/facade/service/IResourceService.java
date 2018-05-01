@@ -11,15 +11,15 @@ import java.util.List;
  */
 public interface IResourceService {
 
+    List<ResourceDTO> findByParentCode(String parentCode);
+
     List<ResourceDTO> findMenuByUserName(String userName);
 
     ResourceVO findByParam(ResourceVO resourceVO);
 
-    ResourceVO findByResCode(String resCode);
+    ResourceDTO findById(Integer id);
 
-    long totalCount(ResourceVO resourceVO);
-
-    int delete(String resCode);
+    int delete(ResourceVO resourceVO);
 
     int update(ResourceVO resourceVO);
 

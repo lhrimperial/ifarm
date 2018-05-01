@@ -5,6 +5,7 @@ package com.ifarm.console.shared.domain.po;
 import com.github.framework.util.serializer.BeanCopyUtils;
 import com.ifarm.console.shared.domain.dto.ResourceDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +31,13 @@ public class ResourcePO extends BasePO {
     public ResourceDTO convertDTO() {
         ResourceDTO resourceDTO = new ResourceDTO();
         BeanCopyUtils.copyBean(this, resourceDTO);
+        if (this.childrenNode != null && !this.childrenNode.isEmpty()) {
+            List<ResourceDTO> dtos = new ArrayList<>(this.childrenNode.size());
+            for (ResourcePO po : this.childrenNode) {
+                dtos.add(po.convertDTO());
+            }
+            resourceDTO.setChildrenNode(dtos);
+        }
         return resourceDTO;
     }
 

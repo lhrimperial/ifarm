@@ -1,8 +1,9 @@
 package com.ifarm.console.facade.controller;
 
-import com.ifarm.console.facade.service.IUserInfoService;
+import com.ifarm.console.facade.service.IResourceService;
+import com.ifarm.console.shared.domain.dto.ResourceDTO;
+import com.ifarm.console.shared.domain.vo.ResourceVO;
 import com.ifarm.console.shared.domain.vo.ResponseVO;
-import com.ifarm.console.shared.domain.vo.UserInfoVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,26 +11,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  *
- */
+ **/
 @RestController
-@RequestMapping("/user")
-public class UserInfoController extends AbstractController{
-    private Logger logger = LoggerFactory.getLogger(UserInfoController.class);
+@RequestMapping("/resource")
+public class ResourceController extends AbstractController {
+    private Logger logger = LoggerFactory.getLogger(ResourceController.class);
 
     @Autowired
-    private IUserInfoService userInfoService;
+    private IResourceService resourceService;
 
-    @RequestMapping("/list")
-    public ResponseVO list(@RequestBody UserInfoVO userInfoVO) {
+    @RequestMapping("/findByParentCode")
+    public ResponseVO<List<ResourceDTO>> findByParentCode(String parentCode) {
         ResponseVO responseVO = returnSuccess();
         try {
-            userInfoService.findByParam(userInfoVO);
-            responseVO.setResult(userInfoVO);
+            responseVO.setResult(resourceService.findByParentCode(parentCode));
         } catch (Exception e) {
             logger.error("", e);
-            return returnError();
+            return returnError(e.getMessage());
         }
         return responseVO;
     }
@@ -38,19 +40,31 @@ public class UserInfoController extends AbstractController{
     public ResponseVO findById(Integer tid) {
         ResponseVO responseVO = returnSuccess();
         try {
-            responseVO.setResult(userInfoService.findById(tid));
+            responseVO.setResult(resourceService.findById(tid));
         } catch (Exception e) {
             logger.error("", e);
-            return returnError();
+            return returnError(e.getMessage());
+        }
+        return responseVO;
+    }
+
+    @RequestMapping("/list")
+    public ResponseVO list(@RequestBody ResourceVO resourceVO) {
+        ResponseVO responseVO = returnSuccess();
+        try {
+            responseVO.setResult(resourceService.findByParam(resourceVO));
+        } catch (Exception e) {
+            logger.error("", e);
+            return returnError(e.getMessage());
         }
         return responseVO;
     }
 
     @RequestMapping("/save")
-    public ResponseVO save(@RequestBody UserInfoVO userInfoVO) {
+    public ResponseVO save(@RequestBody ResourceVO resourceVO) {
         ResponseVO responseVO = returnSuccess();
         try {
-            userInfoService.insert(userInfoVO);
+            responseVO.setResult(resourceService.insert(resourceVO));
         } catch (Exception e) {
             logger.error("", e);
             return returnError(e.getMessage());
@@ -59,10 +73,10 @@ public class UserInfoController extends AbstractController{
     }
 
     @RequestMapping("/update")
-    public ResponseVO update(@RequestBody UserInfoVO userInfoVO) {
+    public ResponseVO update(@RequestBody ResourceVO resourceVO) {
         ResponseVO responseVO = returnSuccess();
         try {
-            userInfoService.update(userInfoVO);
+            responseVO.setResult(resourceService.update(resourceVO));
         } catch (Exception e) {
             logger.error("", e);
             return returnError(e.getMessage());
@@ -71,10 +85,10 @@ public class UserInfoController extends AbstractController{
     }
 
     @RequestMapping("/delete")
-    public ResponseVO delete(@RequestBody UserInfoVO userInfoVO) {
+    public ResponseVO delete(@RequestBody ResourceVO resourceVO) {
         ResponseVO responseVO = returnSuccess();
         try {
-            userInfoService.delete(userInfoVO);
+            responseVO.setResult(resourceService.delete(resourceVO));
         } catch (Exception e) {
             logger.error("", e);
             return returnError(e.getMessage());

@@ -1,6 +1,5 @@
 package com.ifarm.console.facade.service.impl;
 
-import com.github.framework.util.string.StringUtils;
 import com.github.pagehelper.PageHelper;
 import com.ifarm.console.facade.service.IRoleInfoService;
 import com.ifarm.console.mapper.RoleMapper;
@@ -30,11 +29,25 @@ public class RoleInfoServiceImpl implements IRoleInfoService {
         }
     }
 
+
+    @Override
+    public RoleInfoDTO findById(Integer tid) {
+        RoleInfoDTO roleInfoDTO = null;
+        if (tid == null) {
+            throw new IllegalArgumentException("参数不能为空");
+        }
+        RoleInfoPO roleInfoPO = roleMapper.findById(tid);
+        if (roleInfoPO != null) {
+            roleInfoDTO = roleInfoPO.convertDTO();
+        }
+        return roleInfoDTO;
+    }
+
     @Override
     public RoleInfoVO findByParam(RoleInfoVO roleInfoVO) {
         this.check(roleInfoVO);
         //query
-        PageHelper.startPage(roleInfoVO.getPage(), roleInfoVO.getLimit());
+        PageHelper.startPage(roleInfoVO.getPageNo(), roleInfoVO.getPageSize());
         RoleInfoPO roleInfoPO = roleInfoVO.getRoleInfoDTO().convertPO();
         List<RoleInfoDTO> result = new ArrayList<>();
         List<RoleInfoPO> roleInfoPOS = roleMapper.findByParam(roleInfoPO);
@@ -46,37 +59,17 @@ public class RoleInfoServiceImpl implements IRoleInfoService {
         return roleInfoVO;
     }
 
-    @Override
-    public RoleInfoVO findByRoleCode(String roleCode) {
-        if (StringUtils.isBlank(roleCode)) {
-            throw new IllegalArgumentException("参数不能为空!");
-        }
-        RoleInfoVO roleInfoVO = new RoleInfoVO();
-        RoleInfoPO roleInfoPO = roleMapper.findByRoleCode(roleCode);
-        if (roleInfoPO != null) {
-            roleInfoVO.setRoleInfoDTO(roleInfoPO.convertDTO());
-        }
-        return roleInfoVO;
-    }
 
     @Override
-    public long totalCount(RoleInfoVO roleInfoVO) {
-        this.check(roleInfoVO);
-        //query
-        RoleInfoPO roleInfoPO = roleInfoVO.getRoleInfoDTO().convertPO();
-        return roleMapper.totalCount(roleInfoPO);
-    }
-
-    @Override
-    public int delete(String roleCode) {
-        if (StringUtils.isBlank(roleCode)) {
+    public int delete(RoleInfoVO roleInfoVO) {
+        if (roleInfoVO == null) {
             throw new IllegalArgumentException("参数不能为空!");
         }
-        RoleInfoPO roleInfoVO = new RoleInfoPO();
-        roleInfoVO.setActive(IFarmConstants.INACTIVE);
-        roleInfoVO.setRoleCode(roleCode);
-        roleInfoVO.setModifyTime(new Date());
-        return roleMapper.update(roleInfoVO);
+        List<Integer> ids = roleInfoVO.getIds();
+        if (ids == null || ids.isEmpty()) {
+            return 0;
+        }
+        return roleMapper.updateActiveByIds(ids, IFarmConstants.INACTIVE);
     }
 
     @Override

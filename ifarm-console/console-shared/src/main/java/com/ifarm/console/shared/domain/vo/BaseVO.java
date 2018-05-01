@@ -9,33 +9,24 @@ import java.io.Serializable;
 public class BaseVO implements Serializable {
 
     private static final long serialVersionUID = 1615483319438201092L;
-    private Integer page = 1;
-    private Integer start = 0;
-    private Integer limit = 10;
+    private Integer pageNo = 1;
+    private Integer pageSize = 10;
     private Long totalCount;
 
-    public Integer getPage() {
-        return page;
+    public Integer getPageNo() {
+        return pageNo;
     }
 
-    public void setPage(Integer page) {
-        this.page = page;
+    public void setPageNo(Integer pageNo) {
+        this.pageNo = pageNo;
     }
 
-    public Integer getStart() {
-        return start;
+    public Integer getPageSize() {
+        return pageSize;
     }
 
-    public void setStart(Integer start) {
-        this.start = start;
-    }
-
-    public Integer getLimit() {
-        return limit;
-    }
-
-    public void setLimit(Integer limit) {
-        this.limit = limit;
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 
     public Long getTotalCount() {

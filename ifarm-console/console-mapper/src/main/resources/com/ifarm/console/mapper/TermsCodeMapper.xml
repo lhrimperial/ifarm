@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ifarm.console.mapper.TermsCodeMapper">
+    <!--The file was generated on 2017-11-06 14:52:56 by Administrator-->
+    <resultMap id="BaseResultMap" type="com.ifarm.console.shared.domain.po.TermsCodePO">
+        <id column="id" property="tid"/>
+        <result column="terms_code" property="termsCode"/>
+        <result column="terms_name" property="termsName"/>
+        <result column="notes" property="notes"/>
+        <result column="active" property="active"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+    </resultMap>
+
+    <resultMap id="ContainValueResultMap" type="com.ifarm.console.shared.domain.po.TermsCodePO" extends="BaseResultMap">
+        <collection column="terms_code" property="termsValues" ofType="com.ifarm.console.shared.domain.po.TermsValuePO">
+            <id column="tv_id" property="tid"/>
+            <result column="tv_value_code" property="valueCode"/>
+            <result column="tv_value_name" property="valueName"/>
+            <result column="tv_terms_code" property="termsCode"/>
+            <result column="tv_value_seq" property="valueSeq"/>
+            <result column="tv_notes" property="notes"/>
+            <result column="tv_active" property="active"/>
+            <result column="tv_create_time" property="createTime"/>
+            <result column="tv_modify_time" property="modifyTime"/>
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, terms_code, terms_name, notes, active, create_time
+      </sql>
+
+    <sql id="param_sql">
+        <if test="termsName != null and termsName != ''">
+            and terms_name like concat('%',concat(#{termsName},'%'))
+        </if>
+        <if test="active != null and active != ''">
+            and active = #{active}
+        </if>
+        <if test="tid != null">
+            and id = #{tid}
+        </if>
+        <if test="termsCode != null and termsCode != ''">
+            and terms_code = #{termsCode}
+        </if>
+    </sql>
+
+    <select id="findTermsCodeByID" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select <include refid="Base_Column_List"/>
+        from t_data_termscode
+        where id = #{tid}
+    </select>
+
+    <select id="findTermsCodeByParam" resultMap="BaseResultMap" parameterType="com.ifarm.console.shared.domain.po.TermsCodePO">
+        select <include refid="Base_Column_List"/>
+        from t_data_termscode
+        <where>
+            <include refid="param_sql"/>
+        </where>
+    </select>
+
+    <select id="termsCodeTotalCount" resultType="java.lang.Long" parameterType="com.ifarm.console.shared.domain.po.TermsCodePO">
+        select count(id)
+        from t_data_termscode
+        <where>
+            <include refid="param_sql"/>
+        </where>
+    </select>
+
+    <select id="findAllCode"  resultMap="ContainValueResultMap">
+        select
+            tc.id,
+            tc.terms_code,
+            tc.terms_name,
+            tc.notes,
+            tc.active,
+            tc.create_time,
+            tv.id as tv_id,
+            tv.value_code as tv_value_code,
+            tv.value_name as tv_value_name,
+            tv.terms_code as tv_terms_code,
+            tv.value_seq as tv_value_seq,
+            tv.notes as tv_notes,
+            tv.active as tv_active,
+            tv.create_time as tv_create_time,
+            tv.modify_time as tv_modify_time
+        from t_data_termscode tc
+        left join t_data_termsvalue tv on tc.terms_code = tv.terms_code
+    </select>
+
+    <select id="findByTermsCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_data_termscode
+        where terms_code = #{termsCode}
+    </select>
+
+    <insert id="insert" parameterType="com.ifarm.console.shared.domain.po.TermsCodePO">
+        insert into t_data_termscode (terms_code, terms_name,notes, active, create_time, modify_time)
+        values (#{termsCode}, #{termsName}, #{notes}, #{active}, #{createTime}, #{modifyTime})
+    </insert>
+
+    <update id="batchUpdateTermsCodeStatus" >
+        update t_data_termscode set active = #{active}
+        where terms_code in
+        <foreach collection="termsCodes" item="item" close=")" open="(" separator=",">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="termsCodeDelete">
+        update t_data_termscode set active = #{active}
+        where id in
+        <foreach collection="ids" item="item" close=")" open="(" separator=",">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="update" parameterType="com.ifarm.console.shared.domain.po.TermsCodePO">
+        update t_data_termscode
+        <set>
+            <if test="termsName != null and termsName != ''">
+                terms_name = #{termsName},
+            </if>
+            <if test="notes != null and notes != ''">
+                notes = #{notes},
+            </if>
+            <if test="active != null and active != ''">
+                active = #{active},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+        </set>
+        <where>
+            <if test="tid != null">
+                and id = #{tid}
+            </if>
+            <if test="termsCode != null and termsCode != ''">
+                and terms_code = #{termsCode}
+            </if>
+        </where>
+    </update>
+</mapper>

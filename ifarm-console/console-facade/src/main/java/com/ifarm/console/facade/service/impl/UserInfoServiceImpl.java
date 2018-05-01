@@ -7,8 +7,8 @@ import com.ifarm.console.mapper.UserMapper;
 import com.ifarm.console.shared.define.IFarmConstants;
 import com.ifarm.console.shared.domain.dto.UserInfoDTO;
 import com.ifarm.console.shared.domain.po.UserInfoPO;
-import com.ifarm.console.shared.exception.RegisterException;
 import com.ifarm.console.shared.domain.vo.UserInfoVO;
+import com.ifarm.console.shared.exception.RegisterException;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
@@ -38,11 +38,24 @@ public class UserInfoServiceImpl implements IUserInfoService {
     }
 
     @Override
+    public UserInfoDTO findById(Integer tid) {
+        UserInfoDTO userInfoDTO = null;
+        if (tid != null) {
+            UserInfoPO userInfoPO = userMapper.findById(tid);
+            if (userInfoPO != null) {
+                userInfoDTO = userInfoPO.convertDTO();
+            }
+        }
+
+        return userInfoDTO;
+    }
+
+    @Override
     public UserInfoVO findByParam(UserInfoVO userInfoVO) {
         //check
         this.check(userInfoVO);
         //query
-        PageHelper.startPage(userInfoVO.getPage(), userInfoVO.getLimit());
+        PageHelper.startPage(userInfoVO.getPageNo(), userInfoVO.getPageSize());
         UserInfoDTO userInfoDTO = userInfoVO.getUserInfoDTO();
         UserInfoPO userInfoPO = userInfoDTO.convertPO();
         List<UserInfoDTO> result = new ArrayList<>();
@@ -93,37 +106,15 @@ public class UserInfoServiceImpl implements IUserInfoService {
     }
 
     @Override
-    public void register(UserInfoVO userInfoVO) {
-        this.check(userInfoVO);
-        UserInfoDTO userInfoDTO = userInfoVO.getUserInfoDTO();
-       if (StringUtils.isBlank(userInfoDTO.getUserName())) {
-            throw new RegisterException("用户名不能为空");
-        } else if (StringUtils.isBlank(userInfoDTO.getPassword())) {
-            throw new RegisterException("登录密码不能为空");
+    public int delete(UserInfoVO userInfoVO) {
+        if (userInfoVO == null) {
+            throw new IllegalArgumentException("参数不能为空");
         }
-        String userName = userInfoDTO.getUserName();
-        String password = userInfoDTO.getPassword();
-        UserInfoDTO exist = this.findByUserName(userName);
-        if (exist != null) {
-            throw new RegisterException("此用户名已注册");
+        List<Integer> ids = userInfoVO.getIds();
+        if (ids == null || ids.isEmpty()) {
+            return 0;
         }
-
-        // 将用户名作为盐值
-        ByteSource salt = ByteSource.Util.bytes(userName);
-        /*
-        * MD5加密：
-        * 使用SimpleHash类对原始密码进行加密。
-        * 第一个参数代表使用MD5方式加密
-        * 第二个参数为原始密码
-        * 第三个参数为盐值，即用户名
-        * 第四个参数为加密次数
-        * 最后用toHex()方法将加密后的密码转成String
-        * */
-        String newPs = new SimpleHash("MD5", password, salt, 2).toHex().toUpperCase();
-
-        userInfoDTO.setPassword(newPs);
-        userInfoDTO.setSalt(salt.toString());
-        this.insert(userInfoVO);
+        return userMapper.updateActive(ids, IFarmConstants.INACTIVE);
     }
 
     @Override
@@ -150,6 +141,34 @@ public class UserInfoServiceImpl implements IUserInfoService {
     @Override
     public int insert(UserInfoVO userInfoVO) {
         this.check(userInfoVO);
+        UserInfoDTO userInfoDTO = userInfoVO.getUserInfoDTO();
+        if (StringUtils.isBlank(userInfoDTO.getUserName())) {
+            throw new RegisterException("用户名不能为空");
+        } else if (StringUtils.isBlank(userInfoDTO.getPassword())) {
+            throw new RegisterException("登录密码不能为空");
+        }
+        String userName = userInfoDTO.getUserName();
+        String password = userInfoDTO.getPassword();
+        UserInfoDTO exist = this.findByUserName(userName);
+        if (exist != null) {
+            throw new RegisterException("此用户名已注册");
+        }
+
+        // 将用户名作为盐值
+        ByteSource salt = ByteSource.Util.bytes(userName);
+        /*
+        * MD5加密：
+        * 使用SimpleHash类对原始密码进行加密。
+        * 第一个参数代表使用MD5方式加密
+        * 第二个参数为原始密码
+        * 第三个参数为盐值，即用户名
+        * 第四个参数为加密次数
+        * 最后用toHex()方法将加密后的密码转成String
+        * */
+        String newPs = new SimpleHash("MD5", password, salt, 2).toHex().toUpperCase();
+
+        userInfoDTO.setPassword(newPs);
+        userInfoDTO.setSalt(salt.toString());
         //insert
         UserInfoPO userInfoPO = userInfoVO.getUserInfoDTO().convertPO();
         userInfoPO.setCreateTime(new Date());
