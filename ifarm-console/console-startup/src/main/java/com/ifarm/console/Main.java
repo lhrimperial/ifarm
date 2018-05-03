@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
  *
  */
 @FrameBootApplication(appName = "console")
-@EnableAutoConfiguration
 public class Main {
 
     public static void main(String[] args){
