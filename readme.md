@@ -1,6 +1,7 @@
 ### ifarm 后台管理系统
 ##### 简介
-1. ifarm 后台管理系统，采用前后端分离设计与开发，本工程为后端Java代码，前端采用Vue+ElementUI开发,工程地址[ifarm-console](https://github.com/lhrimperial/farm-console);
+1. ifarm 后台管理系统，采用前后端分离设计与开发，本工程为后端Java代码，前端采用Vue+ElementUI开发,
+工程地址[ifarm-console](https://github.com/lhrimperial/farm-console);
 2. 后台技术栈
     - SpringBoot
     - SpringMVC
