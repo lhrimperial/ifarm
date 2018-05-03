@@ -165,7 +165,7 @@ public class TermsValueServiceImpl implements ITermsValueService {
         this.valueCheck(dictionaryVO);
         TermsValuePO termsValuePO = dictionaryVO.getTermsValueDTO().convertPO();
         termsValuePO.setModifyTime(new Date());
-        return termsValueMapper.insert(termsValuePO);
+        return termsValueMapper.update(termsValuePO);
     }
 
     @Override
