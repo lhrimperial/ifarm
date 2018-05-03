@@ -11,4 +11,6 @@
 4. 用户/密码：admin/123     
 4. 效果图
     - 用户管理
-    
+    ![Alt text](doc/用户管理.png)
+    - 菜单管理
+    ![Alt text](doc/菜单管理.png)
