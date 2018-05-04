@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50628
 File Encoding         : 65001
 
-Date: 2018-04-28 15:44:39
+Date: 2018-05-04 18:29:23
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -59,18 +59,19 @@ CREATE TABLE `t_console_resource` (
   `create_time` datetime DEFAULT NULL,
   `modify_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of t_console_resource
 -- ----------------------------
 INSERT INTO `t_console_resource` VALUES ('1', 'console_1', 'console系统', null, null, null, '1', '1', '1', null, null, 'N', 'Y', '2018-04-14 19:55:02', '2018-04-14 19:55:05');
-INSERT INTO `t_console_resource` VALUES ('2', 'console_101', '综合管理', '', null, 'console_1', '2', '2', '1', 'el-icon-setting', null, 'N', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
-INSERT INTO `t_console_resource` VALUES ('3', 'console_102', '基础数据', '', null, 'console_1', '2', '2', '2', 'el-icon-menu', null, 'N', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
-INSERT INTO `t_console_resource` VALUES ('4', 'console_103', '系统设置', '', null, 'console_1', '2', '2', '3', 'el-icon-date', null, 'N', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
+INSERT INTO `t_console_resource` VALUES ('2', 'console_101', '综合管理', '', null, 'console_1', '2', '2', '1', 'el-icon-document', null, 'N', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
+INSERT INTO `t_console_resource` VALUES ('3', 'console_102', '基础数据', '', null, 'console_1', '2', '2', '2', 'el-icon-edit', null, 'N', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
+INSERT INTO `t_console_resource` VALUES ('4', 'console_103', '系统设置', '', null, 'console_1', '2', '2', '3', 'el-icon-setting', null, 'N', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
 INSERT INTO `t_console_resource` VALUES ('5', 'console_10201', '词条管理', 'termsCodeManagement', 'setting/termsCodeManagement', 'console_102', '3', '3', '1', '', null, 'Y', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
 INSERT INTO `t_console_resource` VALUES ('6', 'console_10301', '用户管理', 'userManagement', 'setting/userManagement', 'console_103', '3', '3', '1', '', null, 'Y', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
 INSERT INTO `t_console_resource` VALUES ('7', 'console_10302', '角色管理', 'roleManagement', 'setting/roleManagement', 'console_103', '3', '3', '2', '', null, 'Y', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
+INSERT INTO `t_console_resource` VALUES ('8', 'console_10303', '菜单管理', 'resourceManagement', 'setting/resourceManagement', 'console_103', '3', '3', '3', '', null, 'Y', 'Y', '2018-04-14 20:06:21', '2018-04-14 20:06:21');
 
 -- ----------------------------
 -- Table structure for t_console_role
@@ -157,3 +158,78 @@ CREATE TABLE `t_console_user_role` (
 -- Records of t_console_user_role
 -- ----------------------------
 INSERT INTO `t_console_user_role` VALUES ('1', '1', '1', '2018-04-14 20:12:08');
+
+-- ----------------------------
+-- Table structure for t_data_termscode
+-- ----------------------------
+DROP TABLE IF EXISTS `t_data_termscode`;
+CREATE TABLE `t_data_termscode` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `terms_code` varchar(50) NOT NULL COMMENT '条款编码',
+  `terms_name` varchar(100) NOT NULL COMMENT '条款名称',
+  `notes` varchar(255) DEFAULT NULL,
+  `active` char(1) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx_terms_code` (`terms_code`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of t_data_termscode
+-- ----------------------------
+INSERT INTO `t_data_termscode` VALUES ('1', 'GENDER', '性别', null, 'Y', '2018-03-09 15:54:19', '2018-05-03 08:56:57');
+INSERT INTO `t_data_termscode` VALUES ('2', 'SYSTEM_TYPE', '系统类型', null, 'Y', '2018-03-28 09:41:54', '2018-05-03 08:56:57');
+INSERT INTO `t_data_termscode` VALUES ('3', 'JURISDICTION_TYPE', '权限类型', null, 'Y', '2018-03-28 09:41:54', '2018-05-03 08:56:57');
+INSERT INTO `t_data_termscode` VALUES ('4', 'RESOURCES_LEVEL', '权限级别', null, 'Y', '2018-03-28 09:41:54', '2018-05-03 08:56:57');
+INSERT INTO `t_data_termscode` VALUES ('5', 'ACTIVE', '是否有效', '', 'Y', '2018-03-28 21:37:12', '2018-05-03 08:56:57');
+INSERT INTO `t_data_termscode` VALUES ('6', 'ROLETYPE', '角色类型', '', 'Y', '2018-03-28 23:25:08', '2018-05-03 08:56:57');
+INSERT INTO `t_data_termscode` VALUES ('7', 'DATA_STATUE', '数据状态', '', 'Y', '2018-03-28 23:27:56', '2018-05-03 09:08:52');
+INSERT INTO `t_data_termscode` VALUES ('8', 'DATACHECK', '数据检查', '', 'Y', '2018-03-28 23:29:34', '2018-05-03 08:56:57');
+INSERT INTO `t_data_termscode` VALUES ('9', 'ISEMP', '公司职员', '', 'Y', '2018-03-29 00:21:36', '2018-05-03 08:56:57');
+
+-- ----------------------------
+-- Table structure for t_data_termsvalue
+-- ----------------------------
+DROP TABLE IF EXISTS `t_data_termsvalue`;
+CREATE TABLE `t_data_termsvalue` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `value_code` varchar(50) NOT NULL COMMENT '值编码',
+  `value_name` varchar(100) NOT NULL COMMENT '值名称',
+  `terms_code` varchar(50) NOT NULL COMMENT '条款编码',
+  `terms_name` varchar(100) NOT NULL,
+  `value_seq` tinyint(1) DEFAULT NULL COMMENT '排序',
+  `notes` varchar(255) DEFAULT NULL,
+  `active` char(1) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx_value_code` (`value_code`) USING BTREE,
+  KEY `idx_terms_code` (`terms_code`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of t_data_termsvalue
+-- ----------------------------
+INSERT INTO `t_data_termsvalue` VALUES ('1', 'FEMALE', '女', 'GENDER', '性别', '1', null, 'Y', '2018-03-09 15:56:57', '2018-05-03 08:58:07');
+INSERT INTO `t_data_termsvalue` VALUES ('2', 'MALE', '男', 'GENDER', '性别', '2', null, 'Y', '2018-03-09 15:56:57', '2018-05-03 08:58:07');
+INSERT INTO `t_data_termsvalue` VALUES ('3', 'WEB', 'WEB', 'SYSTEM_TYPE', '系统类型', '1', null, 'Y', '2018-03-28 09:50:08', '2018-05-03 08:58:07');
+INSERT INTO `t_data_termsvalue` VALUES ('4', 'APP', 'APP', 'SYSTEM_TYPE', '系统类型', '2', null, 'Y', '2018-03-28 09:50:08', '2018-05-03 08:58:07');
+INSERT INTO `t_data_termsvalue` VALUES ('5', '1', '子系统', 'JURISDICTION_TYPE', '权限类型', '1', null, 'Y', '2018-03-28 09:50:08', '2018-05-03 08:58:07');
+INSERT INTO `t_data_termsvalue` VALUES ('6', '2', '模块', 'JURISDICTION_TYPE', '权限类型', '2', null, 'Y', '2018-03-28 09:50:08', '2018-05-03 08:58:07');
+INSERT INTO `t_data_termsvalue` VALUES ('7', '3', '菜单', 'JURISDICTION_TYPE', '权限类型', '3', null, 'Y', '2018-03-28 09:50:08', '2018-05-03 08:58:07');
+INSERT INTO `t_data_termsvalue` VALUES ('8', '4', '按钮', 'JURISDICTION_TYPE', '权限类型', '4', null, 'Y', '2018-03-28 09:50:08', '2018-05-03 08:58:07');
+INSERT INTO `t_data_termsvalue` VALUES ('9', '1', '1', 'RESOURCES_LEVEL', '权限级别', '1', null, 'Y', '2018-03-28 09:50:08', '2018-05-03 08:58:07');
+INSERT INTO `t_data_termsvalue` VALUES ('10', '2', '2', 'RESOURCES_LEVEL', '权限级别', '2', null, 'Y', '2018-03-28 09:50:08', '2018-05-03 08:58:07');
+INSERT INTO `t_data_termsvalue` VALUES ('11', '3', '3', 'RESOURCES_LEVEL', '权限级别', '3', null, 'Y', '2018-03-28 09:50:08', '2018-05-03 08:58:07');
+INSERT INTO `t_data_termsvalue` VALUES ('12', '4', '4', 'RESOURCES_LEVEL', '权限级别', '4', null, 'Y', '2018-03-28 09:50:08', '2018-05-03 08:58:07');
+INSERT INTO `t_data_termsvalue` VALUES ('13', 'Y', '是', 'ACTIVE', '是否有效', '1', '', 'Y', '2018-03-28 23:07:54', '2018-05-03 08:58:07');
+INSERT INTO `t_data_termsvalue` VALUES ('14', 'N', '否', 'ACTIVE', '是否有效', '2', '', 'Y', '2018-03-28 23:12:32', '2018-05-03 08:58:07');
+INSERT INTO `t_data_termsvalue` VALUES ('15', 'WEB', 'WEB', 'ROLETYPE', '角色类型', '1', '', 'Y', '2018-03-28 23:25:49', '2018-05-03 08:58:07');
+INSERT INTO `t_data_termsvalue` VALUES ('16', 'APP', 'APP', 'ROLETYPE', '角色类型', '2', '', 'Y', '2018-03-28 23:26:06', '2018-05-03 08:58:07');
+INSERT INTO `t_data_termsvalue` VALUES ('17', 'Y', '有效', 'DATA_STATUE', '数据状态', '1', '', 'Y', '2018-03-28 23:28:17', '2018-05-03 08:58:07');
+INSERT INTO `t_data_termsvalue` VALUES ('18', 'N', '无效', 'DATA_STATUE', '数据状态', '2', '', 'Y', '2018-03-28 23:28:35', '2018-05-03 08:58:07');
+INSERT INTO `t_data_termsvalue` VALUES ('19', '0', '是', 'DATACHECK', '数据检查', '1', '', 'Y', '2018-03-28 23:29:52', '2018-05-03 08:58:07');
+INSERT INTO `t_data_termsvalue` VALUES ('20', '1', '否', 'DATACHECK', '数据检查', '2', '', 'Y', '2018-03-28 23:30:08', '2018-05-03 08:58:07');
+INSERT INTO `t_data_termsvalue` VALUES ('21', 'Y', '是', 'ISEMP', '公司职员', '1', '', 'Y', '2018-03-29 00:21:53', '2018-05-03 08:58:07');
+INSERT INTO `t_data_termsvalue` VALUES ('22', 'N', '否', 'ISEMP', '公司职员', '2', '', 'Y', '2018-03-29 00:22:12', '2018-05-03 08:58:07');
