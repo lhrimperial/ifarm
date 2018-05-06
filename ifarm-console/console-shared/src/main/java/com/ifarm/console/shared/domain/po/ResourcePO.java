@@ -3,6 +3,7 @@ package com.ifarm.console.shared.domain.po;
 
 
 import com.github.framework.util.serializer.BeanCopyUtils;
+import com.ifarm.console.shared.domain.dto.PermissionDTO;
 import com.ifarm.console.shared.domain.dto.ResourceDTO;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class ResourcePO extends BasePO {
     private String leafFlag;
     private String notes;
 
+    private List<PermissionPO> permissions;
     private List<ResourcePO> childrenNode;
 
     public ResourceDTO convertDTO() {
@@ -38,7 +40,22 @@ public class ResourcePO extends BasePO {
             }
             resourceDTO.setChildrenNode(dtos);
         }
+        if (this.permissions != null && !this.permissions.isEmpty()) {
+            List<PermissionDTO> dtos = new ArrayList<>(this.permissions.size());
+            for (PermissionPO po : this.permissions) {
+                dtos.add(po.convertDTO());
+            }
+            resourceDTO.setPermissions(dtos);
+        }
         return resourceDTO;
+    }
+
+    public List<PermissionPO> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<PermissionPO> permissions) {
+        this.permissions = permissions;
     }
 
     public String getResourceCode() {

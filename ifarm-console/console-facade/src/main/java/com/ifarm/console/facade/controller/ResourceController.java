@@ -2,6 +2,7 @@ package com.ifarm.console.facade.controller;
 
 import com.ifarm.console.facade.service.IResourceService;
 import com.ifarm.console.shared.domain.dto.ResourceDTO;
+import com.ifarm.console.shared.domain.vo.PermissionVO;
 import com.ifarm.console.shared.domain.vo.ResourceVO;
 import com.ifarm.console.shared.domain.vo.ResponseVO;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -23,6 +25,18 @@ public class ResourceController extends AbstractController {
 
     @Autowired
     private IResourceService resourceService;
+
+    @RequestMapping("/findMenuSelectStore")
+    public ResponseVO<List<Map<String, String>>> findMenuSelectStore() {
+        ResponseVO responseVO = returnSuccess();
+        try {
+            responseVO.setResult(resourceService.findMenuSelectStore());
+        } catch (Exception e) {
+            logger.error("", e);
+            return returnError(e.getMessage());
+        }
+        return responseVO;
+    }
 
     @RequestMapping("/findByParentCode")
     public ResponseVO<List<ResourceDTO>> findByParentCode(String parentCode) {
@@ -89,6 +103,42 @@ public class ResourceController extends AbstractController {
         ResponseVO responseVO = returnSuccess();
         try {
             responseVO.setResult(resourceService.delete(resourceVO));
+        } catch (Exception e) {
+            logger.error("", e);
+            return returnError(e.getMessage());
+        }
+        return responseVO;
+    }
+
+    @RequestMapping("/permission/save")
+    public ResponseVO savePermission(@RequestBody PermissionVO permissionVO) {
+        ResponseVO responseVO = returnSuccess();
+        try {
+            responseVO.setResult(resourceService.insertPermission(permissionVO));
+        } catch (Exception e) {
+            logger.error("", e);
+            return returnError(e.getMessage());
+        }
+        return responseVO;
+    }
+
+    @RequestMapping("/permission/update")
+    public ResponseVO updatePermission(@RequestBody PermissionVO permissionVO) {
+        ResponseVO responseVO = returnSuccess();
+        try {
+            responseVO.setResult(resourceService.updatePermission(permissionVO));
+        } catch (Exception e) {
+            logger.error("", e);
+            return returnError(e.getMessage());
+        }
+        return responseVO;
+    }
+
+    @RequestMapping("/permission/delete")
+    public ResponseVO deletePermission(@RequestBody PermissionVO permissionVO) {
+        ResponseVO responseVO = returnSuccess();
+        try {
+            responseVO.setResult(resourceService.deletePermission(permissionVO));
         } catch (Exception e) {
             logger.error("", e);
             return returnError(e.getMessage());

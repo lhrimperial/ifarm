@@ -86,6 +86,7 @@
             tv.modify_time as tv_modify_time
         from t_data_termscode tc
         left join t_data_termsvalue tv on tc.terms_code = tv.terms_code
+        where tv.active = 'Y' and tc.active = 'Y'
     </select>
 
     <select id="findByTermsCode" parameterType="java.lang.String" resultMap="BaseResultMap">

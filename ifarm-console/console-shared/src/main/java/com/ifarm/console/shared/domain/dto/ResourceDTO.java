@@ -24,12 +24,21 @@ public class ResourceDTO extends BaseDTO {
     private String leafFlag;
     private String notes;
 
+    private List<PermissionDTO> permissions;
     private List<ResourceDTO> childrenNode;
 
     public ResourcePO convertPO() {
         ResourcePO resourcePO = new ResourcePO();
         BeanCopyUtils.copyBean(this, resourcePO);
         return resourcePO;
+    }
+
+    public List<PermissionDTO> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<PermissionDTO> permissions) {
+        this.permissions = permissions;
     }
 
     public String getResourceCode() {

@@ -1,8 +1,10 @@
 package com.ifarm.console.facade.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.ifarm.console.facade.context.ConsoleContext;
 import com.ifarm.console.facade.service.IResourceService;
 import com.ifarm.console.facade.service.IUserInfoService;
+import com.ifarm.console.shared.define.IFarmConstants;
 import com.ifarm.console.shared.domain.dto.ResourceDTO;
 import com.ifarm.console.shared.domain.dto.UserInfoDTO;
 import com.ifarm.console.shared.domain.po.UserInfoPO;
@@ -89,10 +91,24 @@ public class LoginController extends AbstractController{
             String userName = ConsoleContext.getCurrentUserName();
             UserInfoDTO userInfoDTO = userInfoService.findByUserName(userName);
             userInfoDTO.clearCredentialsSalt();
-            List<ResourceDTO> userMenus = resourceService.findMenuByUserName(userName);
+            List<ResourceDTO> userMenus = resourceService.findMenuByUserAndParent(IFarmConstants.MENU_ROOT);
             userInfoVO.setUserInfoDTO(userInfoDTO);
             userInfoVO.setUserMenus(userMenus);
             responseVO.setResult(userInfoVO);
+        } catch (Exception e) {
+            logger.error("", e);
+            return returnError(e.getMessage());
+        }
+        return responseVO;
+    }
+
+    @RequestMapping("/userMenu")
+    public ResponseVO userMenu(String parentCode) {
+        ResponseVO<List<ResourceDTO>> responseVO = returnSuccess();
+        try {
+            List<ResourceDTO> userMenus = resourceService.findMenuByUserAndParent(parentCode);
+            logger.info(JSON.toJSONString(userMenus));
+            responseVO.setResult(userMenus);
         } catch (Exception e) {
             logger.error("", e);
             return returnError(e.getMessage());

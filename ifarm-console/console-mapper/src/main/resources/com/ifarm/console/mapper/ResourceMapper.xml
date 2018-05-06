@@ -17,6 +17,13 @@
         <result column="active" property="active"/>
         <result column="create_time" property="createTime"/>
         <result column="modify_time" property="modifyTime"/>
+        <collection column="id" property="permissions" ofType="com.ifarm.console.shared.domain.po.PermissionPO">
+            <result column="pid" property="tid"/>
+            <result column="resource_id" property="resourceTid"/>
+            <result column="permission_code" property="permissionCode"/>
+            <result column="permission_name" property="permissionName"/>
+            <result column="create_time" property="createTime"/>
+        </collection>
     </resultMap>
 
     <resultMap id="MenuResultMap" type="com.ifarm.console.shared.domain.po.ResourcePO">
@@ -101,9 +108,21 @@
         </if>
     </sql>
 
+    <select id="findMenuSelectStore" resultType="java.util.Map">
+        select resource_code resourceCode,resource_name resourceName
+        from t_console_resource
+        where active = 'Y'
+    </select>
+
     <select id="findByParentCode" resultMap="BaseResultMap">
         select <include refid="column_sql"/>
+        ,ps.id as pid
+        ,ps.resource_id
+        ,ps.permission_code
+        ,ps.permission_name
+        ,ps.create_time
         from t_console_resource rs
+        left join t_console_permission ps on rs.id = ps.resource_id
         <where>
             <if test="parentCode != null and parentCode != ''">
                 and rs.parent_code = #{parentCode}
@@ -111,6 +130,23 @@
         </where>
     </select>
 
+    <select id="findMenuByUserAndParent" resultMap="BaseResultMap">
+        select <include refid="column_sql"/>
+        ,p.id as pid
+        ,p.resource_id
+        ,p.permission_code
+        ,p.permission_name
+        ,p.create_time
+        from t_console_user u
+        left join t_console_user_role ur on u.id = ur.user_id
+        left join t_console_role r on r.id = ur.role_id
+        left join t_console_role_permission rp on r.id = rp.role_id
+        left join t_console_permission p on p.id = rp.permission_id
+        left join t_console_resource rs on rs.id = p.resource_id
+        where u.user_name = #{userName}
+        and rs.active = 'Y'
+        and rs.parent_code = #{parentCode}
+    </select>
 
     <select id="findMenuResources" parameterType="java.lang.String" resultMap="MenuResultMap">
         select <include refid="column_sql"/>
@@ -148,6 +184,8 @@
         left join t_console_resource gch on ch.resource_code = gch.parent_code
         where u.user_name = #{userName}
         and rs.active = 'Y'
+        and ch.active = 'Y'
+        and gch.active = 'Y'
         and rs.resource_code = 'console_1'
     </select>
 
@@ -232,8 +270,35 @@
         </where>
     </update>
 
-    <insert id="insert" parameterType="com.ifarm.console.shared.domain.po.ResourcePO">
+    <insert useGeneratedKeys="true" id="insert" parameterType="com.ifarm.console.shared.domain.po.ResourcePO">
         insert into t_console_resource(resource_code,resource_name,router,component,parent_code,resource_level,resource_type,display_order,node_icon,notes,leaf_flag,active,create_time,modify_time)
-        values(#{resource_code},#{resource_name},#{router},#{component},#{parent_code},#{resource_level},#{resource_type},#{display_order},#{node_icon},#{notes},#{leaf_flag},#{active},#{create_time},#{modify_time})
+        values(#{resourceCode},#{resourceName},#{router},#{component},#{parentCode},#{resourceLevel},#{resourceType},#{displayOrder},#{nodeIcon},#{notes},#{leafFlag},#{active},#{createTime},#{modifyTime})
     </insert>
+
+    <insert useGeneratedKeys="true" id="insertPermission" parameterType="com.ifarm.console.shared.domain.po.PermissionPO">
+        insert into t_console_permission(resource_id,permission_code,permission_name,create_time)
+        values(#{resourceTid},#{permissionCode},#{permissionName},#{createTime})
+    </insert>
+
+    <update id="updatePermission" parameterType="com.ifarm.console.shared.domain.po.PermissionPO">
+        update t_console_permission
+        <set>
+            <if test="permissionName != null and permissionName != ''">
+                permission_name = #{permissionName},
+            </if>
+        </set>
+        <where>
+            <if test="tid != null">
+                and id = #{tid}
+            </if>
+        </where>
+    </update>
+
+    <delete id="deletePermission" parameterType="java.util.List">
+        delete from t_console_permission
+        where id in
+        <foreach collection="list" open="(" close=")" item="item" separator=",">
+            #{item}
+        </foreach>
+    </delete>
 </mapper>

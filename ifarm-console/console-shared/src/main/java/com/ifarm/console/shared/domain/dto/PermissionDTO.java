@@ -1,13 +1,13 @@
-package com.ifarm.console.shared.domain.po;
+package com.ifarm.console.shared.domain.dto;
 
 
 import com.github.framework.util.serializer.BeanCopyUtils;
-import com.ifarm.console.shared.domain.dto.PermissionDTO;
+import com.ifarm.console.shared.domain.po.PermissionPO;
 
 /**
  *
  */
-public class PermissionPO extends BasePO {
+public class PermissionDTO extends BaseDTO {
 
     private static final long serialVersionUID = -2120352962372802682L;
 
@@ -15,10 +15,10 @@ public class PermissionPO extends BasePO {
     private String permissionCode;
     private String permissionName;
 
-    public PermissionDTO convertDTO() {
-        PermissionDTO dto = new PermissionDTO();
-        BeanCopyUtils.copyBean(this, dto);
-        return dto;
+    public PermissionPO convertPO() {
+        PermissionPO po = new PermissionPO();
+        BeanCopyUtils.copyBean(this, po);
+        return po;
     }
 
     public Integer getResourceTid() {

@@ -22,8 +22,8 @@
         <collection column="role_code" property="roles" ofType="java.lang.String">
             <result column="role_code" />
         </collection>
-        <collection column="permission" property="permissions" ofType="java.lang.String">
-            <result column="permission"/>
+        <collection column="permission_code" property="permissions" ofType="java.lang.String">
+            <result column="permission_code"/>
         </collection>
     </resultMap>
 
@@ -93,7 +93,7 @@
         ,u.password
         ,u.salt
         ,r.role_code
-        ,p.permission
+        ,p.permission_code
         from t_console_user u
         left join t_console_user_role ur on u.id = ur.user_id
         left join t_console_role r on r.id = ur.role_id
