@@ -112,6 +112,19 @@ public class ResourceServiceImpl implements IResourceService {
     }
 
     @Override
+    public ResourceDTO findByCode(String resourceCode) {
+        ResourceDTO resourceDTO = null;
+        if (StringUtils.isBlank(resourceCode)) {
+            throw new IllegalArgumentException("resourceCode is empty");
+        }
+        ResourcePO resourcePO = resourceMapper.findByCode(resourceCode);
+        if (resourcePO != null) {
+            resourceDTO = resourcePO.convertDTO();
+        }
+        return resourceDTO;
+    }
+
+    @Override
     public int delete(ResourceVO resourceVO) {
         if (resourceVO == null) {
             throw new IllegalArgumentException("参数不能为空");
@@ -124,19 +137,19 @@ public class ResourceServiceImpl implements IResourceService {
     }
 
     @Override
-    public int update(ResourceVO resourceVO) {
+    public ResourceDTO update(ResourceVO resourceVO) {
         this.check(resourceVO);
         //update
         ResourcePO resourcePO = resourceVO.getResourceDTO().convertPO();
         resourcePO.setModifyTime(new Date());
-        return resourceMapper.update(resourcePO);
+        resourceMapper.update(resourcePO);
+        return this.findByCode(resourcePO.getResourceCode());
     }
 
     @Override
-    public int insert(ResourceVO resourceVO) {
+    public ResourceDTO insert(ResourceVO resourceVO) {
         this.check(resourceVO);
         //insert
-        int result = 0;
         ResourcePO resourcePO = resourceVO.getResourceDTO().convertPO();
         resourcePO.setActive(IFarmConstants.ACTIVE);
         resourcePO.setCreateTime(new Date());
@@ -149,7 +162,7 @@ public class ResourceServiceImpl implements IResourceService {
         permissionPO.setPermissionName(resourcePO.getResourceName());
         permissionPO.setCreateTime(new Date());
         resourceMapper.insertPermission(permissionPO);
-        return result;
+        return this.findByCode(resourcePO.getResourceCode());
     }
 
     private void checkPermission(PermissionVO permissionVO) {

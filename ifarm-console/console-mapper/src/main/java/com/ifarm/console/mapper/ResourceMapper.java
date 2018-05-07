@@ -26,6 +26,8 @@ public interface ResourceMapper {
 
     long totalCount(ResourcePO resourcePO);
 
+    ResourcePO findByCode(@Param("resourceCode") String resourceCode);
+
     ResourcePO findByById(Integer id);
 
     int updateActiveByIds(@Param("ids") List<Integer> ids, @Param("active") String active);

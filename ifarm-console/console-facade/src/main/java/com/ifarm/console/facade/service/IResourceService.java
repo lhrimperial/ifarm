@@ -25,11 +25,13 @@ public interface IResourceService {
 
     ResourceDTO findById(Integer id);
 
+    ResourceDTO findByCode(String resourceCode);
+
     int delete(ResourceVO resourceVO);
 
-    int update(ResourceVO resourceVO);
+    ResourceDTO update(ResourceVO resourceVO);
 
-    int insert(ResourceVO resourceVO);
+    ResourceDTO insert(ResourceVO resourceVO);
 
     int insertPermission(PermissionVO permissionVO);
 
