@@ -7,6 +7,7 @@ import com.ifarm.console.mapper.UserMapper;
 import com.ifarm.console.shared.define.IFarmConstants;
 import com.ifarm.console.shared.domain.dto.UserInfoDTO;
 import com.ifarm.console.shared.domain.po.UserInfoPO;
+import com.ifarm.console.shared.domain.po.UserRolePO;
 import com.ifarm.console.shared.domain.vo.UserInfoVO;
 import com.ifarm.console.shared.exception.RegisterException;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -35,6 +36,34 @@ public class UserInfoServiceImpl implements IUserInfoService {
         if (userInfoVO == null || userInfoVO.getUserInfoDTO() == null) {
             throw new IllegalArgumentException("参数不能为空！");
         }
+    }
+
+    @Override
+    public int distributeRole(UserInfoVO userInfoVO) {
+        if (userInfoVO == null) {
+            throw new IllegalArgumentException("参数不能为空！");
+        }
+        Integer userId = userInfoVO.getUserId();
+        List<Integer> roleIds = userInfoVO.getIds();
+        if (userId == null) {
+            logger.info("userId is empty");
+            throw new IllegalArgumentException("userId is empty");
+        }
+        //每次分配角色，清空
+        userMapper.deleteUserRole(userId);
+        if (roleIds == null || roleIds.isEmpty()) {
+            return 0;
+        }
+        List<UserRolePO> list = new ArrayList<>(roleIds.size());
+        UserRolePO po = null;
+        for (Integer roleId : roleIds) {
+            po = new UserRolePO();
+            po.setRoleTid(roleId);
+            po.setUserTid(userId);
+            po.setCreateTime(new Date());
+            list.add(po);
+        }
+        return userMapper.saveUserRoleBatch(list);
     }
 
     @Override

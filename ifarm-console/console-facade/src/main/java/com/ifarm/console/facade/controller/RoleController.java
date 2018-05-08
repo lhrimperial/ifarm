@@ -21,6 +21,30 @@ public class RoleController extends AbstractController {
     @Autowired
     private IRoleInfoService roleInfoService;
 
+    @RequestMapping("/findAllRole")
+    public ResponseVO findAllRole() {
+        ResponseVO responseVO = returnSuccess();
+        try {
+            responseVO.setResult(roleInfoService.findAllRole());
+        } catch (Exception e) {
+            logger.error("", e);
+            return returnError(e.getMessage());
+        }
+        return responseVO;
+    }
+
+    @RequestMapping("/findRoleByUserId")
+    public ResponseVO findRoleByUserId(Integer userId) {
+        ResponseVO responseVO = returnSuccess();
+        try {
+            responseVO.setResult(roleInfoService.findRoleByUserId(userId));
+        } catch (Exception e) {
+            logger.error("", e);
+            return returnError(e.getMessage());
+        }
+        return responseVO;
+    }
+
     @RequestMapping("/find")
     public ResponseVO findById(Integer tid) {
         ResponseVO responseVO = returnSuccess();

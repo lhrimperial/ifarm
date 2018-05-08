@@ -2,12 +2,15 @@ package com.ifarm.console.facade.service;
 
 import com.ifarm.console.shared.domain.dto.UserInfoDTO;
 import com.ifarm.console.shared.domain.vo.UserInfoVO;
+import org.apache.catalina.User;
 
 
 /**
  *
  **/
 public interface IUserInfoService {
+
+    int distributeRole(UserInfoVO userInfoVO);
 
     UserInfoDTO findById(Integer tid);
 

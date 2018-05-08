@@ -107,7 +107,6 @@ public class LoginController extends AbstractController{
         ResponseVO<List<ResourceDTO>> responseVO = returnSuccess();
         try {
             List<ResourceDTO> userMenus = resourceService.findMenuByUserAndParent(parentCode);
-            logger.info(JSON.toJSONString(userMenus));
             responseVO.setResult(userMenus);
         } catch (Exception e) {
             logger.error("", e);

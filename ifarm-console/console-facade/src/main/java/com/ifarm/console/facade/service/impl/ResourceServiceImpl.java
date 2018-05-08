@@ -1,5 +1,6 @@
 package com.ifarm.console.facade.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.github.framework.util.string.StringUtils;
 import com.github.pagehelper.PageHelper;
 import com.ifarm.console.facade.context.ConsoleContext;
@@ -11,6 +12,8 @@ import com.ifarm.console.shared.domain.po.PermissionPO;
 import com.ifarm.console.shared.domain.po.ResourcePO;
 import com.ifarm.console.shared.domain.vo.PermissionVO;
 import com.ifarm.console.shared.domain.vo.ResourceVO;
+import org.apache.log4j.spi.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +27,7 @@ import java.util.Map;
  */
 @Service
 public class ResourceServiceImpl implements IResourceService {
-
+    private Logger logger = org.slf4j.LoggerFactory.getLogger(ResourceServiceImpl.class);
     @Autowired
     private ResourceMapper resourceMapper;
 
@@ -160,6 +163,7 @@ public class ResourceServiceImpl implements IResourceService {
         permissionPO.setResourceTid(resourcePO.getTid());
         permissionPO.setPermissionCode("/"+resourcePO.getResourceCode()+IFarmConstants.PERMISSION_MENU);
         permissionPO.setPermissionName(resourcePO.getResourceName());
+        permissionPO.setEditAble(false);
         permissionPO.setCreateTime(new Date());
         resourceMapper.insertPermission(permissionPO);
         return this.findByCode(resourcePO.getResourceCode());
@@ -172,29 +176,32 @@ public class ResourceServiceImpl implements IResourceService {
     }
 
     @Override
-    public int insertPermission(PermissionVO permissionVO) {
+    public ResourceDTO insertPermission(PermissionVO permissionVO) {
         this.checkPermission(permissionVO);
         PermissionPO po = permissionVO.getPermissionDTO().convertPO();
         po.setCreateTime(new Date());
-        return resourceMapper.insertPermission(po);
+        po.setEditAble(true);
+        resourceMapper.insertPermission(po);
+        return this.findByCode(permissionVO.getResourceCode());
     }
 
     @Override
-    public int updatePermission(PermissionVO permissionVO) {
+    public ResourceDTO updatePermission(PermissionVO permissionVO) {
         this.checkPermission(permissionVO);
         PermissionPO po = permissionVO.getPermissionDTO().convertPO();
-        return resourceMapper.updatePermission(po);
+        resourceMapper.updatePermission(po);
+        return this.findByCode(permissionVO.getResourceCode());
     }
 
     @Override
-    public int deletePermission(PermissionVO permissionVO) {
+    public ResourceDTO deletePermission(PermissionVO permissionVO) {
         if (permissionVO == null) {
             throw new IllegalArgumentException("参数不能为空");
         }
         List<Integer> ids = permissionVO.getIds();
-        if (ids == null || ids.isEmpty()) {
-            return 0;
+        if (ids != null || !ids.isEmpty()) {
+            resourceMapper.deletePermission(ids);
         }
-        return resourceMapper.deletePermission(ids);
+        return this.findByCode(permissionVO.getResourceCode());
     }
 }

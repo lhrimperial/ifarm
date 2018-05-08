@@ -168,4 +168,15 @@
         insert into t_console_user(user_name,password,nick_name,salt,email,mobile_no,emp_code,dept_code,notes,active,create_time,modify_time)
         values(#{userName},#{password},#{nickName},#{salt},#{email},#{mobileNo},#{empCode},#{deptCode},#{notes},#{active},#{createTime},#{modifyTime})
     </insert>
+
+    <insert id="saveUserRoleBatch" parameterType="java.util.List">
+        insert into t_console_user_role(user_id, role_id, create_time) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.userTid},#{item.roleTid},#{item.createTime})
+        </foreach>
+    </insert>
+
+    <delete id="deleteUserRole" parameterType="java.lang.Integer">
+        delete from t_console_user_role where user_id = #{userId}
+    </delete>
 </mapper>

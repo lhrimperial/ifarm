@@ -22,6 +22,7 @@
             <result column="resource_id" property="resourceTid"/>
             <result column="permission_code" property="permissionCode"/>
             <result column="permission_name" property="permissionName"/>
+            <result column="edit_able" property="editAble"/>
             <result column="create_time" property="createTime"/>
         </collection>
     </resultMap>
@@ -120,6 +121,7 @@
         ,ps.resource_id
         ,ps.permission_code
         ,ps.permission_name
+        ,ps.edit_able
         ,ps.create_time
         from t_console_resource rs
         left join t_console_permission ps on rs.id = ps.resource_id
@@ -136,6 +138,7 @@
         ,ps.resource_id
         ,ps.permission_code
         ,ps.permission_name
+        ,ps.edit_able
         ,ps.create_time
         from t_console_resource rs
         left join t_console_permission ps on rs.id = ps.resource_id
@@ -152,6 +155,7 @@
         ,p.resource_id
         ,p.permission_code
         ,p.permission_name
+        ,p.edit_able
         ,p.create_time
         from t_console_user u
         left join t_console_user_role ur on u.id = ur.user_id
@@ -291,9 +295,9 @@
         values(#{resourceCode},#{resourceName},#{router},#{component},#{parentCode},#{resourceLevel},#{resourceType},#{displayOrder},#{nodeIcon},#{notes},#{leafFlag},#{active},#{createTime},#{modifyTime})
     </insert>
 
-    <insert useGeneratedKeys="true" id="insertPermission" parameterType="com.ifarm.console.shared.domain.po.PermissionPO">
-        insert into t_console_permission(resource_id,permission_code,permission_name,create_time)
-        values(#{resourceTid},#{permissionCode},#{permissionName},#{createTime})
+    <insert useGeneratedKeys="true" keyProperty="tid" id="insertPermission" parameterType="com.ifarm.console.shared.domain.po.PermissionPO">
+        insert into t_console_permission(resource_id,permission_code,permission_name,edit_able,create_time)
+        values(#{resourceTid},#{permissionCode},#{permissionName},#{editAble},#{createTime})
     </insert>
 
     <update id="updatePermission" parameterType="com.ifarm.console.shared.domain.po.PermissionPO">

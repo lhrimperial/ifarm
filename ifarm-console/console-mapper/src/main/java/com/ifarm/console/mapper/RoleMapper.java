@@ -12,6 +12,10 @@ import java.util.List;
 @Repository
 public interface RoleMapper {
 
+    List<RoleInfoPO> findAllRole();
+
+    List<RoleInfoPO> findRoleByUserId(Integer userId);
+
     List<RoleInfoPO> findByParam(RoleInfoPO roleInfoPO);
 
     long totalCount(RoleInfoPO roleInfoPO);

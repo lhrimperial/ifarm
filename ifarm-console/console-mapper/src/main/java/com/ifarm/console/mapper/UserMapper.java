@@ -1,6 +1,7 @@
 package com.ifarm.console.mapper;
 
 import com.ifarm.console.shared.domain.po.UserInfoPO;
+import com.ifarm.console.shared.domain.po.UserRolePO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -27,4 +28,8 @@ public interface UserMapper {
     int update(UserInfoPO userInfoPO);
 
     int insert(UserInfoPO userInfoPO);
+
+    int saveUserRoleBatch(List<UserRolePO> list);
+
+    int deleteUserRole(Integer userId);
 }

@@ -81,4 +81,16 @@ public class UserInfoController extends AbstractController{
         }
         return responseVO;
     }
+
+    @RequestMapping("/distributeRole")
+    public ResponseVO distributeRole(@RequestBody UserInfoVO userInfoVO) {
+        ResponseVO responseVO = returnSuccess();
+        try {
+            userInfoService.distributeRole(userInfoVO);
+        } catch (Exception e) {
+            logger.error("", e);
+            return returnError(e.getMessage());
+        }
+        return responseVO;
+    }
 }

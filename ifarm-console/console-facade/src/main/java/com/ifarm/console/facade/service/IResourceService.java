@@ -13,6 +13,8 @@ import java.util.Map;
  */
 public interface IResourceService {
 
+
+
     List<Map<String, String>> findMenuSelectStore();
 
     List<ResourceDTO> findByParentCode(String parentCode);
@@ -33,9 +35,9 @@ public interface IResourceService {
 
     ResourceDTO insert(ResourceVO resourceVO);
 
-    int insertPermission(PermissionVO permissionVO);
+    ResourceDTO insertPermission(PermissionVO permissionVO);
 
-    int updatePermission(PermissionVO permissionVO);
+    ResourceDTO updatePermission(PermissionVO permissionVO);
 
-    int deletePermission(PermissionVO permissionVO);
+    ResourceDTO deletePermission(PermissionVO permissionVO);
 }

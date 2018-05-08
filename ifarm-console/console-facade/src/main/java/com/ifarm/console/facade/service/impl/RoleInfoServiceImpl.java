@@ -7,6 +7,8 @@ import com.ifarm.console.shared.define.IFarmConstants;
 import com.ifarm.console.shared.domain.dto.RoleInfoDTO;
 import com.ifarm.console.shared.domain.po.RoleInfoPO;
 import com.ifarm.console.shared.domain.vo.RoleInfoVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ import java.util.List;
  */
 @Service
 public class RoleInfoServiceImpl implements IRoleInfoService {
+    private Logger logger = LoggerFactory.getLogger(RoleInfoServiceImpl.class);
 
     @Autowired
     private RoleMapper roleMapper;
@@ -29,6 +32,30 @@ public class RoleInfoServiceImpl implements IRoleInfoService {
         }
     }
 
+    private List<RoleInfoDTO> convertRoleList(List<RoleInfoPO> pos) {
+        List<RoleInfoDTO> dtos = null;
+        if (pos != null && pos.size() > 0) {
+            dtos = new ArrayList<>(pos.size());
+            for (RoleInfoPO po : pos) {
+                dtos.add(po.convertDTO());
+            }
+        }
+        return dtos;
+    }
+
+    @Override
+    public List<RoleInfoDTO> findAllRole() {
+        return convertRoleList(roleMapper.findAllRole());
+    }
+
+    @Override
+    public List<RoleInfoDTO> findRoleByUserId(Integer userId) {
+        if (userId == null) {
+            logger.info("userId is null");
+            throw new IllegalArgumentException("userId is null");
+        }
+        return convertRoleList(roleMapper.findRoleByUserId(userId));
+    }
 
     @Override
     public RoleInfoDTO findById(Integer tid) {

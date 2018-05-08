@@ -30,6 +30,22 @@
         </if>
     </sql>
 
+    <select id="findAllRole" resultMap="BaseResultMap">
+        select <include refid="columns_sql"/>
+        from t_console_role r
+        where r.active = 'Y'
+    </select>
+
+    <select id="findRoleByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select <include refid="columns_sql"/>
+        from t_console_role r,
+        t_console_user u, t_console_user_role ur
+        where r.active = 'Y'
+        and u.id = ur.user_id
+        and ur.role_id = r.id
+        and u.id = #{userId}
+    </select>
+
     <select id="totalCount" parameterType="com.ifarm.console.shared.domain.po.RoleInfoPO" resultType="java.lang.Long">
         select count(*)
         from t_console_role r
