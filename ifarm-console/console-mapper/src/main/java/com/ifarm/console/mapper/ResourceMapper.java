@@ -1,5 +1,6 @@
 package com.ifarm.console.mapper;
 
+import com.ifarm.console.shared.domain.dto.SimpleResourceDTO;
 import com.ifarm.console.shared.domain.po.PermissionPO;
 import com.ifarm.console.shared.domain.po.ResourcePO;
 import org.apache.ibatis.annotations.Param;
@@ -13,6 +14,10 @@ import java.util.Map;
  **/
 @Repository
 public interface ResourceMapper {
+
+    List<SimpleResourceDTO> findAllDistributeResourceByParent(String parentCode);
+
+    List<SimpleResourceDTO> findDistributeResourceByRoleId(Map<String, Object> params);
 
     List<Map<String, String>> findMenuSelectStore();
 

@@ -70,6 +70,54 @@
         </collection>
     </resultMap>
 
+
+    <resultMap id="SimplePermissionMap" type="com.ifarm.console.shared.domain.dto.SimplePermissionDTO">
+        <result column="pid" property="tid"/>
+        <result column="resource_id" property="resourceTid"/>
+        <result column="permission_code" property="permissionCode"/>
+        <result column="permission_name" property="permissionName"/>
+    </resultMap>
+
+    <select id="selectByResourceId" resultMap="SimplePermissionMap"  parameterType="java.util.Map">
+          select ps.id as pid,ps.resource_id,ps.permission_code,ps.permission_name
+          from t_console_permission ps,
+          t_console_role_permission rp
+          where ps.id = rp.permission_id
+          and rp.role_id = #{roleId}
+          and ps.resource_id = #{resourceId}
+    </select>
+
+    <resultMap id="SimpleResourceMap" type="com.ifarm.console.shared.domain.dto.SimpleResourceDTO">
+        <result column="id" property="tid"/>
+        <result column="resource_code" property="resourceCode"/>
+        <result column="resource_name" property="resourceName"/>
+        <result column="leaf_flag" property="leafFlag"/>
+        <collection column="{roleId=role_id,resourceId=id}" property="permissions" select="selectByResourceId"
+                    ofType="com.ifarm.console.shared.domain.dto.SimplePermissionDTO"/>
+        <collection property="childrenNodes" column="{roleId=role_id,parentCode=resource_code}" select="findAllDistributeResourceByParent"
+                    ofType="com.ifarm.console.shared.domain.dto.SimpleResourceDTO"/>
+    </resultMap>
+
+    <select id="findDistributeResourceByRoleId" resultMap="SimpleResourceMap" parameterType="java.util.Map">
+        select rs.id,rs.resource_code,rs.resource_name,rs.leaf_flag,rp.role_id
+        from t_console_resource rs,
+        t_console_permission p,
+        t_console_role_permission rp
+        where rs.active = 'Y'
+        and rs.id = p.resource_id
+        and p.id = rp.permission_id
+        and rp.role_id = #{roleId}
+        and rs.parent_code = #{parentCode}
+    </select>
+
+    <select id="findAllDistributeResourceByParent" parameterType="java.lang.String" resultMap="SimpleResourceMap">
+        select rs.id,rs.resource_code,rs.resource_name,rs.leaf_flag,null as role_id
+        from t_console_resource rs
+        where rs.active = 'Y'
+        and rs.parent_code = #{parentCode}
+    </select>
+
+
     <sql id="column_sql">
         rs.id,rs.resource_code,rs.resource_name,rs.router,rs.component,rs.parent_code,rs.resource_level,rs.resource_type,rs.display_order,rs.node_icon,rs.notes,rs.leaf_flag,rs.active,rs.create_time,rs.modify_time
     </sql>
