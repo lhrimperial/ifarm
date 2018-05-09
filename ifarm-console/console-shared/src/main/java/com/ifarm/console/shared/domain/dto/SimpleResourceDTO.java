@@ -7,10 +7,10 @@ import java.util.List;
  **/
 public class SimpleResourceDTO {
     private Integer tid;
-    private String resourceCode;
-    private String resourceName;
-    private String leafFlag;
-    private List<SimpleResourceDTO> childrenNodes;
+    private String code;
+    private String label;
+    private String isLeaf;
+    private List<SimpleResourceDTO> children;
     private List<SimplePermissionDTO> permissions;
 
     public Integer getTid() {
@@ -21,36 +21,36 @@ public class SimpleResourceDTO {
         this.tid = tid;
     }
 
-    public String getResourceCode() {
-        return resourceCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setResourceCode(String resourceCode) {
-        this.resourceCode = resourceCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getResourceName() {
-        return resourceName;
+    public String getLabel() {
+        return label;
     }
 
-    public void setResourceName(String resourceName) {
-        this.resourceName = resourceName;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
-    public String getLeafFlag() {
-        return leafFlag;
+    public String getIsLeaf() {
+        return isLeaf;
     }
 
-    public void setLeafFlag(String leafFlag) {
-        this.leafFlag = leafFlag;
+    public void setIsLeaf(String isLeaf) {
+        this.isLeaf = isLeaf;
     }
 
-    public List<SimpleResourceDTO> getChildrenNodes() {
-        return childrenNodes;
+    public List<SimpleResourceDTO> getChildren() {
+        return children;
     }
 
-    public void setChildrenNodes(List<SimpleResourceDTO> childrenNodes) {
-        this.childrenNodes = childrenNodes;
+    public void setChildren(List<SimpleResourceDTO> children) {
+        this.children = children;
     }
 
     public List<SimplePermissionDTO> getPermissions() {

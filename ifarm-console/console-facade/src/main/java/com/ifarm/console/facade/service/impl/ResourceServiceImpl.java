@@ -8,6 +8,7 @@ import com.ifarm.console.facade.service.IResourceService;
 import com.ifarm.console.mapper.ResourceMapper;
 import com.ifarm.console.shared.define.IFarmConstants;
 import com.ifarm.console.shared.domain.dto.ResourceDTO;
+import com.ifarm.console.shared.domain.dto.SimpleResourceDTO;
 import com.ifarm.console.shared.domain.po.PermissionPO;
 import com.ifarm.console.shared.domain.po.ResourcePO;
 import com.ifarm.console.shared.domain.vo.PermissionVO;
@@ -17,10 +18,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -35,6 +33,22 @@ public class ResourceServiceImpl implements IResourceService {
         if (resourceVO == null || resourceVO.getResourceDTO() == null) {
             throw new IllegalArgumentException("参数不能为空！");
         }
+    }
+
+    @Override
+    public List<SimpleResourceDTO> findAllDistributeResource() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("roleId", null);
+        params.put("parentCode", IFarmConstants.ROOT);
+        return resourceMapper.findDistributeResourceByParent(params);
+    }
+
+    @Override
+    public List<SimpleResourceDTO> findRoleDistributeResource(Integer roleId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("roleId", roleId);
+        params.put("parentCode", IFarmConstants.ROOT);
+        return resourceMapper.findDistributeResourceByParent(params);
     }
 
     @Override

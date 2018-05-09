@@ -2,6 +2,7 @@ package com.ifarm.console.facade.controller;
 
 import com.ifarm.console.facade.service.IResourceService;
 import com.ifarm.console.shared.domain.dto.ResourceDTO;
+import com.ifarm.console.shared.domain.dto.SimpleResourceDTO;
 import com.ifarm.console.shared.domain.vo.PermissionVO;
 import com.ifarm.console.shared.domain.vo.ResourceVO;
 import com.ifarm.console.shared.domain.vo.ResponseVO;
@@ -25,6 +26,30 @@ public class ResourceController extends AbstractController {
 
     @Autowired
     private IResourceService resourceService;
+
+    @RequestMapping("/findAllDistributeResource")
+    public ResponseVO<List<SimpleResourceDTO>> findAllDistributeResource() {
+        ResponseVO responseVO = returnSuccess();
+        try {
+            responseVO.setResult(resourceService.findAllDistributeResource());
+        } catch (Exception e) {
+            logger.error("", e);
+            return returnError(e.getMessage());
+        }
+        return responseVO;
+    }
+
+    @RequestMapping("/findRoleDistributeResource")
+    public ResponseVO<List<SimpleResourceDTO>> findRoleDistributeResource(Integer roleId) {
+        ResponseVO responseVO = returnSuccess();
+        try {
+            responseVO.setResult(resourceService.findRoleDistributeResource(roleId));
+        } catch (Exception e) {
+            logger.error("", e);
+            return returnError(e.getMessage());
+        }
+        return responseVO;
+    }
 
     @RequestMapping("/findMenuSelectStore")
     public ResponseVO<List<Map<String, String>>> findMenuSelectStore() {

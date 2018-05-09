@@ -1,6 +1,7 @@
 package com.ifarm.console.facade.service;
 
 import com.ifarm.console.shared.domain.dto.ResourceDTO;
+import com.ifarm.console.shared.domain.dto.SimpleResourceDTO;
 import com.ifarm.console.shared.domain.vo.PermissionVO;
 import com.ifarm.console.shared.domain.vo.ResourceVO;
 
@@ -13,7 +14,9 @@ import java.util.Map;
  */
 public interface IResourceService {
 
+    List<SimpleResourceDTO> findAllDistributeResource();
 
+    List<SimpleResourceDTO> findRoleDistributeResource(Integer roleId);
 
     List<Map<String, String>> findMenuSelectStore();
 

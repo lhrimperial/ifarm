@@ -27,16 +27,16 @@ public class PersistentTest extends AbstractTest {
     @Test
     public void test3(){
         Map<String, Object> params = new HashMap<>();
-        params.put("roleId", 1);
-        params.put("parentCode", "root");
-        List<SimpleResourceDTO> list = resourceMapper.findDistributeResourceByRoleId(params);
+        params.put("roleId", null);
+        params.put("parentCode", "console_1");
+        List<SimpleResourceDTO> list = resourceMapper.findDistributeResourceByParent(params);
         System.out.println(JSON.toJSONString(list));
     }
 
     @Test
     public void test2(){
-        List<SimpleResourceDTO> list = resourceMapper.findAllDistributeResourceByParent("root");
-        System.out.println(JSON.toJSONString(list));
+//        List<SimpleResourceDTO> list = resourceMapper.findAllDistributeResourceByParent("root");
+//        System.out.println(JSON.toJSONString(list));
     }
 
     @Test

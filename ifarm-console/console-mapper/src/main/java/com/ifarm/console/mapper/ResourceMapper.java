@@ -15,9 +15,7 @@ import java.util.Map;
 @Repository
 public interface ResourceMapper {
 
-    List<SimpleResourceDTO> findAllDistributeResourceByParent(String parentCode);
-
-    List<SimpleResourceDTO> findDistributeResourceByRoleId(Map<String, Object> params);
+    List<SimpleResourceDTO> findDistributeResourceByParent(Map<String, Object> params);
 
     List<Map<String, String>> findMenuSelectStore();
 
