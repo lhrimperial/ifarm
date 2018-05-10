@@ -1,4 +1,4 @@
-### ifarm 后台管理系统
+### ifarm 后台管理系统（持续更新中。。。。。。）
 ##### 简介
 1. ifarm 后台管理系统，采用前后端分离设计与开发，本工程为后端Java代码，前端[ifarm-console](https://github.com/lhrimperial/farm-console)采用Vue+ElementUI开发,
 
@@ -9,8 +9,7 @@
     - Redis
     - Shiro
 3. 项目中SpringBoot整合常用的后端框架的[framework](https://github.com/lhrimperial/framework), 采用Shiro作用权限管理框架，设计了细粒度的权限控制
-4. 启动步骤
-    成本原因，暂时没有可供大家访问的资源。
+4. 启动步骤（成本原因，暂时没有可供大家访问的资源。）
     1. 后端
         1. clone 源码
             - git clone https://github.com/lhrimperial/ifarm.git
