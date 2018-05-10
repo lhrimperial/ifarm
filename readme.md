@@ -21,7 +21,7 @@
         
     2. 前端
         1. git clone https://github.com/lhrimperial/ifarm-console.git
-        2. npm install(搭建环境看前端的readme)
+        2. npm install([搭建环境](https://github.com/lhrimperial/farm-console))
         3. npm run dev
 5. 用户/密码：admin/123     
 6. 效果图
