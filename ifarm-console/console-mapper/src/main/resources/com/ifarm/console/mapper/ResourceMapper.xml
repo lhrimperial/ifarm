@@ -379,4 +379,15 @@
             #{item}
         </foreach>
     </delete>
+
+    <delete id="deleteRolePermissions" parameterType="java.lang.Integer">
+        delete from t_console_role_permission where role_id = #{roleId}
+    </delete>
+
+    <insert id="insertRolePermissionBatch" parameterType="java.util.List">
+        insert into t_console_role_permission(role_id, permission_id, create_time) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.roleTid},#{item.permissionTid},#{item.createTime})
+        </foreach>
+    </insert>
 </mapper>

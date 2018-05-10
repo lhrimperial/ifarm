@@ -27,6 +27,18 @@ public class ResourceController extends AbstractController {
     @Autowired
     private IResourceService resourceService;
 
+    @RequestMapping("/distributePermission")
+    public ResponseVO distributePermission(@RequestBody ResourceVO resourceVO) {
+        ResponseVO responseVO = returnSuccess();
+        try {
+            responseVO.setResult(resourceService.distributePermission(resourceVO));
+        } catch (Exception e) {
+            logger.error("", e);
+            return returnError(e.getMessage());
+        }
+        return responseVO;
+    }
+
     @RequestMapping("/findAllDistributeResource")
     public ResponseVO<List<SimpleResourceDTO>> findAllDistributeResource() {
         ResponseVO responseVO = returnSuccess();

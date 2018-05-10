@@ -11,12 +11,13 @@ import com.ifarm.console.shared.domain.dto.ResourceDTO;
 import com.ifarm.console.shared.domain.dto.SimpleResourceDTO;
 import com.ifarm.console.shared.domain.po.PermissionPO;
 import com.ifarm.console.shared.domain.po.ResourcePO;
+import com.ifarm.console.shared.domain.po.RolePermissionPO;
 import com.ifarm.console.shared.domain.vo.PermissionVO;
 import com.ifarm.console.shared.domain.vo.ResourceVO;
-import org.apache.log4j.spi.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -36,11 +37,42 @@ public class ResourceServiceImpl implements IResourceService {
     }
 
     @Override
+    @Transactional
+    public int distributePermission(ResourceVO resourceVO) {
+        if (resourceVO == null) {
+            throw new IllegalArgumentException("参数不能为空！");
+        }
+        Integer roleId = resourceVO.getRoleId();
+        List<Integer> permissionIds = resourceVO.getIds();
+        if (roleId == null) {
+            logger.info("roleId is empty");
+            throw new IllegalArgumentException("roleId is empty");
+        }
+        //每次分配权限，清空
+        resourceMapper.deleteRolePermissions(roleId);
+        if (permissionIds == null || permissionIds.isEmpty()) {
+            return 0;
+        }
+        List<RolePermissionPO> list = new ArrayList<>(permissionIds.size());
+        RolePermissionPO po = null;
+        for (Integer permissionId : permissionIds) {
+            po = new RolePermissionPO();
+            po.setRoleTid(roleId);
+            po.setPermissionTid(permissionId);
+            po.setCreateTime(new Date());
+            list.add(po);
+        }
+        return resourceMapper.insertRolePermissionBatch(list);
+    }
+
+    @Override
     public List<SimpleResourceDTO> findAllDistributeResource() {
         Map<String, Object> params = new HashMap<>();
         params.put("roleId", null);
         params.put("parentCode", IFarmConstants.ROOT);
-        return resourceMapper.findDistributeResourceByParent(params);
+        List<SimpleResourceDTO> dtos = resourceMapper.findDistributeResourceByParent(params);
+        logger.info(JSON.toJSONString(dtos));
+        return dtos;
     }
 
     @Override
@@ -48,7 +80,9 @@ public class ResourceServiceImpl implements IResourceService {
         Map<String, Object> params = new HashMap<>();
         params.put("roleId", roleId);
         params.put("parentCode", IFarmConstants.ROOT);
-        return resourceMapper.findDistributeResourceByParent(params);
+        List<SimpleResourceDTO> dtos = resourceMapper.findDistributeResourceByParent(params);
+        logger.info(JSON.toJSONString(dtos));
+        return dtos;
     }
 
     @Override

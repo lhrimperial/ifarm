@@ -3,6 +3,7 @@ package com.ifarm.console.mapper;
 import com.ifarm.console.shared.domain.dto.SimpleResourceDTO;
 import com.ifarm.console.shared.domain.po.PermissionPO;
 import com.ifarm.console.shared.domain.po.ResourcePO;
+import com.ifarm.console.shared.domain.po.RolePermissionPO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,10 @@ import java.util.Map;
  **/
 @Repository
 public interface ResourceMapper {
+
+    int insertRolePermissionBatch(List<RolePermissionPO> list);
+
+    int deleteRolePermissions(Integer roleId);
 
     List<SimpleResourceDTO> findDistributeResourceByParent(Map<String, Object> params);
 

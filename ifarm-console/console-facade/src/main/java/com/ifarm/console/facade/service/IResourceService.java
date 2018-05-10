@@ -14,6 +14,8 @@ import java.util.Map;
  */
 public interface IResourceService {
 
+    int distributePermission(ResourceVO resourceVO);
+
     List<SimpleResourceDTO> findAllDistributeResource();
 
     List<SimpleResourceDTO> findRoleDistributeResource(Integer roleId);
