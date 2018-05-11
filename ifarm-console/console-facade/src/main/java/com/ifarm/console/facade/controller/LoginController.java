@@ -1,6 +1,5 @@
 package com.ifarm.console.facade.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.ifarm.console.facade.context.ConsoleContext;
 import com.ifarm.console.facade.service.IResourceService;
 import com.ifarm.console.facade.service.IUserInfoService;
