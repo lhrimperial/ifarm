@@ -3,6 +3,7 @@ package com.ifarm.console.facade.controller;
 import com.ifarm.console.facade.service.IUserInfoService;
 import com.ifarm.console.shared.domain.vo.ResponseVO;
 import com.ifarm.console.shared.domain.vo.UserInfoVO;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class UserInfoController extends AbstractController{
     @Autowired
     private IUserInfoService userInfoService;
 
+    @RequiresPermissions("/user/list")
     @RequestMapping("/list")
     public ResponseVO list(@RequestBody UserInfoVO userInfoVO) {
         ResponseVO responseVO = returnSuccess();
