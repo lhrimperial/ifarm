@@ -127,6 +127,15 @@
         </if>
     </select>
 
+    <select id="userPermission" parameterType="java.lang.String" resultType="java.lang.String">
+        select p.permission_code
+        from t_console_permission p
+        left join t_console_role_permission rp on p.id = rp.permission_id
+        left join t_console_user_role ur on rp.role_id = ur.role_id
+        left join t_console_user u on u.id = ur.user_id
+        where u.user_name = #{userName}
+    </select>
+
 
     <sql id="column_sql">
         rs.id,rs.resource_code,rs.resource_name,rs.router,rs.component,rs.parent_code,rs.resource_level,rs.resource_type,rs.display_order,rs.node_icon,rs.notes,rs.leaf_flag,rs.active,rs.create_time,rs.modify_time
@@ -361,6 +370,9 @@
     <update id="updatePermission" parameterType="com.ifarm.console.shared.domain.po.PermissionPO">
         update t_console_permission
         <set>
+            <if test="permissionCode != null and permissionCode != ''">
+                permission_code = #{permissionCode},
+            </if>
             <if test="permissionName != null and permissionName != ''">
                 permission_name = #{permissionName},
             </if>

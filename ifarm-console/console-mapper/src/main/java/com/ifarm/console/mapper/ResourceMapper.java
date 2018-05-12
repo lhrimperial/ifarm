@@ -16,6 +16,8 @@ import java.util.Map;
 @Repository
 public interface ResourceMapper {
 
+    List<String> userPermission(String userName);
+
     int insertRolePermissionBatch(List<RolePermissionPO> list);
 
     int deleteRolePermissions(Integer roleId);

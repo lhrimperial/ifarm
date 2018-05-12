@@ -114,6 +114,20 @@ public class LoginController extends AbstractController{
         return responseVO;
     }
 
+    @RequestMapping("/userPermission")
+    public ResponseVO userPermission(String userName) {
+        ResponseVO<List<String>> responseVO = returnSuccess();
+        try {
+            List<String> userMenus = resourceService.userPermission(userName);
+            responseVO.setResult(userMenus);
+        } catch (Exception e) {
+            logger.error("", e);
+            return returnError(e.getMessage());
+        }
+        return responseVO;
+    }
+
+
     /**
      * 登录成功
      * @return

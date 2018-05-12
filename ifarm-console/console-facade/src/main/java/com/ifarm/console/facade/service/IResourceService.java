@@ -28,6 +28,8 @@ public interface IResourceService {
 
     List<ResourceDTO> findMenuByUserName(String userName);
 
+    List<String> userPermission(String userName);
+
     ResourceVO findByParam(ResourceVO resourceVO);
 
     ResourceDTO findById(Integer id);

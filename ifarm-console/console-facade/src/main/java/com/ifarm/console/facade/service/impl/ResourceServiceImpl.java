@@ -134,6 +134,14 @@ public class ResourceServiceImpl implements IResourceService {
     }
 
     @Override
+    public List<String> userPermission(String userName) {
+        if (StringUtils.isBlank(userName)) {
+            throw new IllegalArgumentException("参数不能为空");
+        }
+        return resourceMapper.userPermission(userName);
+    }
+
+    @Override
     public ResourceVO findByParam(ResourceVO resourceVO) {
         this.check(resourceVO);
         //query
