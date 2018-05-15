@@ -13,6 +13,6 @@ public class Main {
 
     public static void main(String[] args){
         ApplicationContexts.setProfileIfNotExists("dev");
-        SpringApplication.run(Main.class);
+        SpringApplication.run(Main.class, args);
     }
 }
