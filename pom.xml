@@ -8,6 +8,7 @@
   <modules>
       <!--<module>channel</module>-->
       <module>ifarm-console</module>
+    <module>ifarm-docker</module>
   </modules>
   <packaging>pom</packaging>
 

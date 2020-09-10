@@ -24,6 +24,7 @@ public class PersistentTest extends AbstractTest {
     @Autowired
     private ResourceMapper resourceMapper;
 
+
     @Test
     public void test3(){
         Map<String, Object> params = new HashMap<>();

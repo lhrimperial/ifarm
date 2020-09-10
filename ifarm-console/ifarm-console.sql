@@ -14,8 +14,16 @@
  Date: 12/05/2018 19:09:20
 */
 
+grant all privileges on *.* to root@"%" identified by "root" with grant option;
+-- update mysql.user set host='%' where user ='root';
+-- SET PASSWORD FOR root@localhost=PASSWORD('');
+FLUSH PRIVILEGES;
+
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+CREATE DATABASE IF NOT EXISTS `ifarm-console` default charset utf8 COLLATE utf8_general_ci;
+USE `ifarm-console`;
 
 -- ----------------------------
 -- Table structure for t_console_permission

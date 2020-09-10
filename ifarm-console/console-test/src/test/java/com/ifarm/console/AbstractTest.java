@@ -15,4 +15,7 @@ public abstract class AbstractTest {
     static {
         ApplicationContexts.setProfileIfNotExists("dev");
     }
+
+
+
 }

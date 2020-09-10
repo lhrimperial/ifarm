@@ -11,6 +11,10 @@
 
     <artifactId>console-startup</artifactId>
 
+    <properties>
+        <docker.image.prefix>image</docker.image.prefix>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.ifarm.console</groupId>
