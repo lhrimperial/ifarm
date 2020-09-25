@@ -6,7 +6,7 @@ ExtJs属于比较重的前端框架，基于当下流行的几种前端框架，
 权限管理选用了Shiro 权限管理框架，并且对权限进行了细粒度的设计，控制到按钮。 时间比较紧还有很多不完善和考虑不周全的地方，希望看到这份代码发现问题的可以给我留言，谢谢！
 
 2. 测试地址（云服务器已到期。。。）
-    - ~~http://www.ifarmshop.com~~
+    - http://www.ifarmshop.com
         - admin/123
     - ~~http://www.ifarmshop.com/caiwei/index~~
         - 275688/123
